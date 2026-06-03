@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plans & Pricing — Nexus Command™</title>
+  <meta name="description" content="Start free for 14 days. Choose the plan that fits your operation. ." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="/logo-icon-512.png" alt="Nexus Command" style="width:44px;height:44px;border-radius:8px;object-fit:contain;" />
+        <span class="logo-text">Nexus Command™</span>
+      </a>
+      <div class="nav-links">
+        <a href="/about">About</a>
+        <a href="/pricing" class="active">Pricing</a>
+        <a href="https://app.nexuscmd.io" class="btn-nav">Launch App</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PRICING HERO -->
+  <section class="section pricing-hero">
+    <div class="container text-center">
+      <div class="eyebrow">Plans & Pricing</div>
+      <h1 class="hero-title">Leadership intelligence<br>at every level.</h1>
+      <p class="section-sub">Start free for 14 days.  Your API key powers your session — you control your data.</p>
+
+      <!-- Billing Toggle -->
+      <div class="billing-toggle">
+        <span id="toggle-monthly" class="toggle-opt active" onclick="setBilling('monthly')">Monthly</span>
+        <div class="toggle-track" onclick="toggleBilling()">
+          <div class="toggle-thumb" id="toggle-thumb"></div>
+        </div>
+        <span id="toggle-annual" class="toggle-opt" onclick="setBilling('annual')">Annual <span class="save-badge">Save 17%</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANS -->
+  <section class="section pricing-section">
+    <div class="container">
+      <div class="plans-grid">
+
+        <!-- COMMANDER -->
+        <div class="plan-card">
+          <div class="plan-header">
+            <div class="plan-tag">Commander</div>
+            <div style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#8F6F24);color:#050505;font-family:'Cinzel',serif;font-size:0.55em;font-weight:700;letter-spacing:0.1em;padding:0.2em 0.7em;border-radius:3px;margin-bottom:0.5em;">FOUNDING MEMBERS · $39 LOCKS IN FOREVER</div>
+            <div class="plan-desc">For the individual leader</div>
+            <div style="font-family:'Cinzel',serif;font-size:0.58em;color:#C9A247;letter-spacing:0.08em;margin-bottom:0.4em;">⬡ 20 founding slots available</div>
+            <div class="plan-price" style="display:flex;align-items:baseline;gap:0.5em;flex-wrap:wrap;">
+              <span class="price-amount" id="price-commander">$39</span>
+              <span class="price-period">/month</span>
+              <span id="regular-price-label" style="display:none;font-size:0.75em;color:var(--dim2);text-decoration:line-through;font-family:'Cinzel',serif;margin-left:0.3em;">$49/mo</span>
+            </div>
+            <div id="founding-badge" style="display:inline-flex;align-items:center;gap:0.4em;background:rgba(201,162,71,0.08);border:1px solid rgba(201,162,71,0.25);border-radius:4px;padding:0.25em 0.7em;margin-bottom:0.6em;">
+              <span style="color:var(--gold);font-family:'Cinzel',serif;font-size:0.58em;letter-spacing:0.08em;">⬡ FOUNDING MEMBERS PRICE</span>
+              <span id="slots-remaining-label" style="color:var(--dim2);font-family:'Cinzel',serif;font-size:0.55em;"></span>
+            </div>
+            <div id="slots-full-badge" style="display:none;background:rgba(80,80,80,0.08);border:1px solid rgba(80,80,80,0.2);border-radius:4px;padding:0.25em 0.7em;margin-bottom:0.6em;">
+              <span style="color:var(--dim);font-family:'Cinzel',serif;font-size:0.58em;letter-spacing:0.08em;">STANDARD PRICING</span>
+            </div>
+            <div class="price-annual" id="annual-commander" style="display:none">Billed $390/year · 2 months free</div>
+          </div>
+          <div class="plan-features">
+            <div class="feature">
+              <span class="check">◆</span>
+              <span>1 user · Full Helios access</span>
+            </div>
+            <div class="feature">
+              <span class="check">◆</span>
+              <span>All 6 intelligence modules</span>
+            </div>
+            <div class="feature">
+              <span class="check">◆</span>
+              <span>Personalized onboarding profile</span>
+            </div>
+            <div class="feature">
+              <span class="check">◆</span>
+              <span>FORCE Engine™ — high-stakes decisions</span>
+            </div>
+            <div class="feature">
+              <span class="check">◆</span>
+              <span>Daily debrief structure</span>
+            </div>
+            <div class="feature">
+              <span class="check">◆</span>
+              <span>Pattern tracking & accountability tools</span>
+            </div>
+            <div class="feature">
+              <span class="check">◆</span>
+              <span>Mobile-first · Works on any device</span>
+            </div>
+            <div class="feature">
+              <span class="check">◆</span>
+              <span>14-day free trial</span>
+            </div>
+          </div>
+          <a href="#checkout" class="btn-plan" onclick="startCheckout('commander')">Start Free Trial</a>
+          <p class="plan-note"></p>
+        </div>
+
+        <!-- COMMAND UNIT - Launching July 13, 2026 -->
+        <div class="plan-card">
+          <div class="plan-header">
+            <div class="plan-tag">Command Unit</div>
+            <div class="plan-desc">For leadership teams up to 5</div>
+
+            <!-- Countdown Banner -->
+            <div style="background:linear-gradient(135deg,rgba(201,162,71,0.12),rgba(201,162,71,0.05));border:1px solid rgba(201,162,71,0.3);border-radius:6px;padding:1em;margin-bottom:1em;text-align:center;">
+              <div style="color:var(--gold);font-family:'Cinzel',serif;font-size:0.6em;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6em;">LAUNCHING JULY 13, 2026</div>
+              <div id="unit-countdown" style="display:flex;justify-content:center;gap:1em;">
+                <div style="text-align:center;">
+                  <div id="unit-days" style="font-family:'Cormorant Garamond',serif;font-size:1.8em;font-weight:700;color:var(--text);line-height:1;">--</div>
+                  <div style="color:var(--dim2);font-family:'Cinzel',serif;font-size:0.5em;letter-spacing:0.1em;">DAYS</div>
+                </div>
+                <div style="color:var(--dim2);font-size:1.5em;align-self:center;">·</div>
+                <div style="text-align:center;">
+                  <div id="unit-hours" style="font-family:'Cormorant Garamond',serif;font-size:1.8em;font-weight:700;color:var(--text);line-height:1;">--</div>
+                  <div style="color:var(--dim2);font-family:'Cinzel',serif;font-size:0.5em;letter-spacing:0.1em;">HRS</div>
+                </div>
+                <div style="color:var(--dim2);font-size:1.5em;align-self:center;">·</div>
+                <div style="text-align:center;">
+                  <div id="unit-minutes" style="font-family:'Cormorant Garamond',serif;font-size:1.8em;font-weight:700;color:var(--text);line-height:1;">--</div>
+                  <div style="color:var(--dim2);font-family:'Cinzel',serif;font-size:0.5em;letter-spacing:0.1em;">MIN</div>
+                </div>
+                <div style="color:var(--dim2);font-size:1.5em;align-self:center;">·</div>
+                <div style="text-align:center;">
+                  <div id="unit-seconds" style="font-family:'Cormorant Garamond',serif;font-size:1.8em;font-weight:700;color:var(--text);line-height:1;">--</div>
+                  <div style="color:var(--dim2);font-family:'Cinzel',serif;font-size:0.5em;letter-spacing:0.1em;">SEC</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="plan-price">
+              <span class="price-amount" id="price-unit">$229</span>
+              <span class="price-period">/month</span>
+            </div>
+            <div class="price-annual" id="annual-unit" style="display:none">Billed $2,290/year · 2 months free</div>
+          </div>
+          <div class="plan-features">
+            <div class="feature"><span class="check">◆</span><span>Up to 5 users</span></div>
+            <div class="feature"><span class="check">◆</span><span>Full Helios access for each team member</span></div>
+            <div class="feature"><span class="check">◆</span><span>Operator-level usage visibility</span></div>
+            <div class="feature"><span class="check">◆</span><span>Team dashboard</span></div>
+            <div class="feature"><span class="check">◆</span><span>Priority support</span></div>
+            <div class="feature"><span class="check">◆</span><span>All 6 Helios modules · FORCE Engine™</span></div>
+          </div>
+          <button class="plan-cta plan-cta-secondary" disabled style="opacity:0.5;cursor:not-allowed;">Notify Me at Launch</button>
+        </div>
+        </div>
+
+        <!-- Command Network hidden until launch -->
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECKOUT MODAL -->
+  <div id="checkout-modal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <button class="modal-close" onclick="closeCheckout()">✕</button>
+      <div class="modal-header">
+        <div class="eyebrow">Start Your Free Trial</div>
+        <h2 id="modal-plan-name">Commander Plan</h2>
+        <p id="modal-plan-price" class="modal-price">$39/month after 14-day trial</p>
+      </div>
+      <div class="modal-body">
+        <div class="trial-badge">✓ 14 days free · No charge today · Cancel anytime</div>
+        <form id="checkout-form" onsubmit="handleCheckout(event)">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="cf-first" required placeholder="First name" />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="cf-last" required placeholder="Last name" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="cf-email" required placeholder="you@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Role / Title</label>
+            <input type="text" id="cf-role" required placeholder="e.g. Store Manager, Area Director" />
+          </div>
+          <div class="form-group">
+            <label>Organization / Restaurant Group</label>
+            <input type="text" id="cf-org" placeholder="Optional" />
+          </div>
+
+          <p class="payment-note">Your card will not be charged until your 14-day trial ends. You'll enter payment details on Stripe's secure page. Cancel anytime before then at no cost.</p>
+          <div style="background:rgba(201,162,71,0.06);border:1px solid rgba(201,162,71,0.2);border-radius:6px;padding:1em;text-align:center;margin-bottom:0.8em;">
+            <p style="color:#C9A247;font-family:'Cinzel',serif;font-size:0.65em;letter-spacing:0.1em;">SECURE STRIPE CHECKOUT</p>
+            <p style="color:#6F6A60;font-size:0.78em;margin-top:0.4em;">You'll enter your card details on Stripe's secure hosted page</p>
+          </div>
+          <div class="secure-badge">🔒 Redirects to Stripe · 256-bit SSL encryption</div>
+          <button type="submit" class="btn-checkout" id="checkout-btn">Start 14-Day Free Trial</button>
+        </form>
+        <p class="checkout-terms">By starting your trial, you agree to our <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>. You'll receive an email reminder 3 days before your trial ends.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="section section-dark faq-section">
+    <div class="container">
+      <div class="eyebrow">Common Questions</div>
+      <h2 class="section-title">Everything you need to know.</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3>What happens after the free trial?</h3>
+          <p>On day 15, your plan activates and your card is charged. You'll receive a reminder email 3 days before. Cancel any time in your account settings — no questions asked.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Do I need my own Anthropic API key?</h3>
+          <p>No. Nexus Command™ runs Helios through our own server-side infrastructure. You do not need an Anthropic account or API key — everything is handled for you.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is my data private?</h3>
+          <p>Yes. Your conversations with Helios are processed through Anthropic's API on our servers and stored securely in our encrypted database. Your leadership profile is stored server-side and used exclusively to personalize your Helios experience. We do not sell your data or share it with third parties for marketing. See our <a href="/privacy">Privacy Policy</a> for full details.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Can I switch plans?</h3>
+          <p>Yes, anytime. Upgrade or downgrade from your account settings. Prorated adjustments are applied automatically.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What is the annual discount?</h3>
+          <p>Annual billing gives you 2 months free — an effective 17% discount. Commander goes from $588/year ($49/month × 12) to $390/year. Command Unit goes from $2,748/year ($229/month × 12) to $2,290/year.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How does Command Network work?</h3>
+          <p>Enterprise pricing is custom-quoted based on seat count, support level, and implementation needs. Email us and we'll set up a call within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="section cta-section">
+    <div class="container cta-inner">
+      <h2 class="section-title">14 days. No charge.<br>See what Helios can do.</h2>
+      <div class="hero-cta" style="margin-top:2em">
+        <a href="#" onclick="startCheckout('commander')" class="btn-primary">Start Commander Free</a>
+        <a href="mailto:hello@nexuscmd.io" class="btn-ghost">Talk to Us First</a>
+      </div>
+    </div>
+    <div class="hero-glow"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="/logo-icon-512.png" alt="Nexus Command" style="width:28px;height:28px;border-radius:6px;object-fit:contain;" />
+        <span>Nexus Command™</span>
+      </div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="https://app.nexuscmd.io">Launch App</a>
+        <a href="mailto:hello@nexuscmd.io">Contact</a>
+      </div>
+      <div class="footer-copy">© 2026 Nexus Command™. All rights reserved. · nexuscmd.io</div>
+    </div>
+  </footer>
+
+  <script>
+    let billingMode = 'monthly';
+    let selectedPlan = 'commander';
+
+    const prices = {
+      commander: { monthly: '$39', annual: '$32', annualNote: 'Billed $390/year · 2 months free' },
+      unit: { monthly: '$229', annual: '$107', annualNote: 'Billed $2,290/year · 2 months free' }
+    };
+
+    function setBilling(mode) {
+      billingMode = mode;
+      const isAnnual = mode === 'annual';
+
+      // Toggle buttons
+      document.getElementById('toggle-monthly').classList.toggle('active', !isAnnual);
+      document.getElementById('toggle-annual').classList.toggle('active', isAnnual);
+      const thumb = document.getElementById('toggle-thumb');
+      if (thumb) thumb.style.transform = isAnnual ? 'translateX(24px)' : 'translateX(0)';
+
+      // Commander price
+      const cmdPrice = document.getElementById('price-commander');
+      const cmdAnnual = document.getElementById('annual-commander');
+      if (cmdPrice) {
+        if (isAnnual) {
+          // Show annual: $390/year displayed as $32.50/mo
+          cmdPrice.textContent = '$32';
+          if (cmdAnnual) { cmdAnnual.textContent = 'Billed $390/year · 2 months free'; cmdAnnual.style.display = 'block'; }
+        } else {
+          // Check if founding slots gone
+          const slotsGone = window._founderSlotsGone;
+          cmdPrice.textContent = slotsGone ? '$49' : '$39';
+          if (cmdAnnual) cmdAnnual.style.display = 'none';
+        }
+      }
+
+      // Command Unit price
+      const unitPrice = document.getElementById('price-unit');
+      const unitAnnual = document.getElementById('annual-unit');
+      if (unitPrice) {
+        if (isAnnual) {
+          unitPrice.textContent = '$191';
+          if (unitAnnual) { unitAnnual.textContent = 'Billed $2,290/year · 2 months free'; unitAnnual.style.display = 'block'; }
+        } else {
+          unitPrice.textContent = '$229';
+          if (unitAnnual) unitAnnual.style.display = 'none';
+        }
+      }
+    }
+
+    function toggleBilling() {
+      setBilling(billingMode === 'monthly' ? 'annual' : 'monthly');
+    }
+
+    function startCheckout(plan) {
+      selectedPlan = plan;
+      const names = { commander: 'Commander Plan', unit: 'Command Unit Plan' };
+      const priceStr = billingMode === 'annual'
+        ? (plan === 'commander' ? '$32.50/month · $390 billed annually' : '$191/month · $2,290 billed annually')
+        : (plan === 'commander' ? '$39/month after 14-day trial' : '$229/month after 14-day trial');
+      document.getElementById('modal-plan-name').textContent = names[plan] || 'Commander Plan';
+      document.getElementById('modal-plan-price').textContent = priceStr;
+      document.getElementById('checkout-modal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkout-modal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    async function handleCheckout(e) {
+      e.preventDefault();
+      const btn = document.getElementById('checkout-btn');
+      const firstName = document.getElementById('cf-first').value.trim();
+      const lastName = document.getElementById('cf-last').value.trim();
+      const email = document.getElementById('cf-email').value.trim();
+      const role = document.getElementById('cf-role').value.trim();
+
+      if (!firstName || !lastName || !email || !role) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      btn.textContent = 'Redirecting to checkout...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('https://app.nexuscmd.io/api/create-checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            plan: selectedPlan,
+            billing: billingMode,
+            email,
+            firstName,
+            lastName
+          })
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          alert('Checkout error: ' + (data.error || 'Unknown error'));
+          btn.textContent = 'Start 14-Day Free Trial';
+          btn.disabled = false;
+        }
+      } catch(err) {
+        alert('Something went wrong. Please try again.');
+        btn.textContent = 'Start 14-Day Free Trial';
+        btn.disabled = false;
+      }
+    }
+
+    function formatCard(input) {
+      let val = input.value.replace(/\D/g, '').substring(0, 16);
+      input.value = val.replace(/(.{4})/g, '$1 ').trim();
+    }
+
+    function formatExpiry(input) {
+      let val = input.value.replace(/\D/g, '').substring(0, 4);
+      if (val.length >= 2) val = val.substring(0, 2) + ' / ' + val.substring(2);
+      input.value = val;
+    }
+
+    document.getElementById('checkout-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeCheckout();
+    });
+  
+
+  // ── Countdown to Command Unit launch: July 13, 2026 ──────────────────────
+  function updateUnitCountdown() {
+    const launch = new Date('2026-07-13T00:00:00');
+    const now = new Date();
+    const diff = launch - now;
+    if (diff <= 0) {
+      document.getElementById('unit-countdown').innerHTML = '<div style="color:#C9A247;font-size:0.9em;letter-spacing:0.1em;">AVAILABLE NOW — SUBSCRIBE ABOVE</div>';
+      return;
+    }
+    const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    const el = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = String(val).padStart(2,'0'); };
+    el('unit-days', days);
+    el('unit-hours', hours);
+    el('unit-minutes', minutes);
+    el('unit-seconds', seconds);
+  }
+  updateUnitCountdown();
+  setInterval(updateUnitCountdown, 1000);
+
+  // ── Founding Members slot check ───────────────────────────────────────────
+  async function checkFoundingSlots() {
+    try {
+      const res = await fetch('https://app.nexuscmd.io/api/founding-slots');
+      if (!res.ok) return;
+      const data = await res.json();
+      const remaining = data.slots_remaining ?? 20;
+      const total = 20;
+      const used = total - remaining;
+
+      const badge = document.getElementById('founding-badge');
+      const fullBadge = document.getElementById('slots-full-badge');
+      const slashPrice = document.getElementById('regular-price-label');
+      const slotsLabel = document.getElementById('slots-remaining-label');
+      const priceEl = document.getElementById('price-commander');
+
+      if (remaining <= 0) {
+        // Slots exhausted — show $49 as current price, hide founding badge
+        if (badge) badge.style.display = 'none';
+        if (fullBadge) fullBadge.style.display = 'inline-flex';
+        if (slashPrice) slashPrice.style.display = 'none';
+        if (priceEl) priceEl.textContent = '$49';
+        // Update annual price
+        const annualEl = document.getElementById('annual-commander');
+        if (annualEl) annualEl.textContent = 'Billed $490/year · 2 months free';
+        // Switch checkout to $49 price
+        window._founderSlotsGone = true;
+      } else {
+        // Slots still available — show founding price with remaining count
+        if (slotsLabel) slotsLabel.textContent = remaining + ' of ' + total + ' slots remaining';
+        if (slashPrice) slashPrice.style.display = 'inline';
+        window._founderSlotsGone = false;
+      }
+    } catch(e) {
+      // Silently fail — show founding price by default if API unavailable
+      const slotsLabel = document.getElementById('slots-remaining-label');
+      if (slotsLabel) slotsLabel.textContent = 'Founding Members price';
+      const slashPrice = document.getElementById('regular-price-label');
+      if (slashPrice) slashPrice.style.display = 'inline';
+    }
+  }
+  checkFoundingSlots();
+
+  // ── Update handleCheckout to use correct price based on slots ─────────────
+  const _origHandleCheckout = handleCheckout;
+</script>
+
+<script>
+(function(){
+  function ncTrack(e,p){fetch('https://app.nexuscmd.io/api/marketing/anonymous-event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:e,properties:p})}).catch(function(){});}
+  var dt=/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop';
+  var qs=new URLSearchParams(window.location.search);
+  ncTrack('pricing_page_view',{referrer:document.referrer,device_type:dt,utm_source:qs.get('utm_source')||'',utm_medium:qs.get('utm_medium')||'',utm_campaign:qs.get('utm_campaign')||''});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Nexus Command™</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .success-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2em;
+      text-align: center;
+    }
+    .success-card {
+      max-width: 480px;
+      width: 100%;
+    }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #C9A84C, #A07830);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5em;
+      font-size: 1.8em;
+    }
+    .success-steps {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5em;
+      margin: 2em 0;
+      text-align: left;
+    }
+    .step {
+      display: flex;
+      gap: 1em;
+      align-items: flex-start;
+      padding: 0.6em 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65em;
+      color: var(--gold);
+      font-weight: 700;
+      min-width: 20px;
+      margin-top: 0.1em;
+    }
+    .step-text {
+      font-size: 0.88em;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+    .countdown {
+      font-size: 0.78em;
+      color: var(--text-muted);
+      margin-top: 1em;
+    }
+  </style>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+</head>
+<body>
+  <div class="success-wrap">
+    <div class="success-card">
+      <div class="success-icon">◆</div>
+      <div class="eyebrow">Trial Activated</div>
+      <h1 class="section-title">Welcome to Nexus Command™.</h1>
+      <p style="color: var(--text-dim); font-size: 0.95em; line-height: 1.75;">Your 14-day free trial is active. No charge until your trial ends — and you'll get a reminder 3 days before.</p>
+
+      <div class="success-steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <span class="step-text">Create your account in the app — use the same email you signed up with</span>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <span class="step-text">Complete your leadership calibration — 6 domains, 18 questions, takes about 5 minutes</span>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <span class="step-text">Describe your first situation to Helios — and see what it does</span>
+        </div>
+      </div>
+
+      <a id="launch-btn" href="https://app.nexuscmd.io" class="btn-primary" style="display:inline-block; width:100%; text-align:center;">
+        Launch Nexus Command™
+      </a>
+      <p class="countdown" id="redirect-msg">Redirecting automatically in <span id="count">5</span> seconds...</p>
+    </div>
+  </div>
+
+  <script>
+    // Pass session info to the app
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    const email = params.get('email');
+
+    const appUrl = 'https://app.nexuscmd.io';
+    const launchUrl = appUrl + (sessionId ? '?session_id=' + sessionId + '&email=' + encodeURIComponent(email || '') : '');
+    document.getElementById('launch-btn').href = launchUrl;
+
+    // Auto redirect
+    let count = 5;
+    const interval = setInterval(() => {
+      count--;
+      const el = document.getElementById('count');
+      if (el) el.textContent = count;
+      if (count <= 0) {
+        clearInterval(interval);
+        window.location.href = launchUrl;
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
