@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plans & Pricing — Nexus Command™</title>
-  <meta name="description" content="Start free for 14 days. Choose the plan that fits your operation. ." />
+  <meta name="description" content="Start free for 14 days. Choose the plan that fits your operation." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -58,7 +58,7 @@
             <div class="plan-tag">Commander</div>
             <div style="display:inline-block;background:linear-gradient(135deg,#C9A84C,#8F6F24);color:#050505;font-family:'Cinzel',serif;font-size:0.55em;font-weight:700;letter-spacing:0.1em;padding:0.2em 0.7em;border-radius:3px;margin-bottom:0.5em;">FOUNDING MEMBERS · $39 LOCKS IN FOREVER</div>
             <div class="plan-desc">For the individual leader</div>
-            <div style="font-family:'Cinzel',serif;font-size:0.58em;color:#C9A247;letter-spacing:0.08em;margin-bottom:0.4em;">⬡ 20 founding slots available</div>
+            <div id="founding-slots-header" style="font-family:'Cinzel',serif;font-size:0.58em;color:#C9A247;letter-spacing:0.08em;margin-bottom:0.4em;">⬡ Founding Member Slots</div>
             <div class="plan-price" style="display:flex;align-items:baseline;gap:0.5em;flex-wrap:wrap;">
               <span class="price-amount" id="price-commander">$39</span>
               <span class="price-period">/month</span>
@@ -237,7 +237,7 @@
         </div>
         <div class="faq-item">
           <h3>What is the annual discount?</h3>
-          <p>Annual billing gives you 2 months free — an effective 17% discount. Commander goes from $588/year ($49/month × 12) to $390/year. Command Unit goes from $2,748/year ($229/month × 12) to $2,290/year.</p>
+          <p>Annual billing gives you 2 months free — an effective 17% discount. Commander goes from $468/year ($39/month × 12) to $390/year. Command Unit goes from $2,748/year ($229/month × 12) to $2,290/year.</p>
         </div>
         <div class="faq-item">
           <h3>How does Command Network work?</h3>
@@ -301,7 +301,7 @@
       if (cmdPrice) {
         if (isAnnual) {
           // Show annual: $390/year displayed as $32.50/mo
-          cmdPrice.textContent = '$32';
+          cmdPrice.textContent = '$32.50';
           if (cmdAnnual) { cmdAnnual.textContent = 'Billed $390/year · 2 months free'; cmdAnnual.style.display = 'block'; }
         } else {
           // Check if founding slots gone
@@ -441,6 +441,7 @@
       const fullBadge = document.getElementById('slots-full-badge');
       const slashPrice = document.getElementById('regular-price-label');
       const slotsLabel = document.getElementById('slots-remaining-label');
+      const slotsHeader = document.getElementById('founding-slots-header');
       const priceEl = document.getElementById('price-commander');
 
       if (remaining <= 0) {
@@ -449,14 +450,16 @@
         if (fullBadge) fullBadge.style.display = 'inline-flex';
         if (slashPrice) slashPrice.style.display = 'none';
         if (priceEl) priceEl.textContent = '$49';
+        if (slotsHeader) slotsHeader.textContent = '⬡ Founding slots closed';
         // Update annual price
         const annualEl = document.getElementById('annual-commander');
         if (annualEl) annualEl.textContent = 'Billed $490/year · 2 months free';
         // Switch checkout to $49 price
         window._founderSlotsGone = true;
       } else {
-        // Slots still available — show founding price with remaining count
+        // Slots still available — show founding price with live remaining count
         if (slotsLabel) slotsLabel.textContent = remaining + ' of ' + total + ' slots remaining';
+        if (slotsHeader) slotsHeader.textContent = '⬡ ' + remaining + ' of ' + total + ' founding slots remaining';
         if (slashPrice) slashPrice.style.display = 'inline';
         window._founderSlotsGone = false;
       }
