@@ -62,7 +62,7 @@
             <div class="plan-price" style="display:flex;align-items:baseline;gap:0.5em;flex-wrap:wrap;">
               <span class="price-amount" id="price-commander">$39</span>
               <span class="price-period">/month</span>
-              <span id="regular-price-label" style="display:none;font-size:0.75em;color:var(--dim2);text-decoration:line-through;font-family:'Cinzel',serif;margin-left:0.3em;">$49/mo</span>
+              <span id="regular-price-label" style="display:none;font-size:0.75em;color:var(--dim2);text-decoration:line-through;font-family:'Cinzel',serif;margin-left:0.3em;">$79.99/mo</span>
             </div>
             <div id="founding-badge" style="display:inline-flex;align-items:center;gap:0.4em;background:rgba(201,162,71,0.08);border:1px solid rgba(201,162,71,0.25);border-radius:4px;padding:0.25em 0.7em;margin-bottom:0.6em;">
               <span style="color:var(--gold);font-family:'Cinzel',serif;font-size:0.58em;letter-spacing:0.08em;">⬡ FOUNDING MEMBERS PRICE</span>
@@ -300,13 +300,14 @@
       const cmdAnnual = document.getElementById('annual-commander');
       if (cmdPrice) {
         if (isAnnual) {
-          // Show annual: $390/year displayed as $32.50/mo
-          cmdPrice.textContent = '$32.50';
-          if (cmdAnnual) { cmdAnnual.textContent = 'Billed $390/year · 2 months free'; cmdAnnual.style.display = 'block'; }
+          const slotsGone = window._founderSlotsGone;
+          cmdPrice.textContent = slotsGone ? '$66.66' : '$32.50';
+          const annualNote = slotsGone ? 'Billed $799.90/year · 2 months free' : 'Billed $390/year · 2 months free';
+          if (cmdAnnual) { cmdAnnual.textContent = annualNote; cmdAnnual.style.display = 'block'; }
         } else {
           // Check if founding slots gone
           const slotsGone = window._founderSlotsGone;
-          cmdPrice.textContent = slotsGone ? '$49' : '$39';
+          cmdPrice.textContent = slotsGone ? '$79.99' : '$39';
           if (cmdAnnual) cmdAnnual.style.display = 'none';
         }
       }
@@ -332,9 +333,10 @@
     function startCheckout(plan) {
       selectedPlan = plan;
       const names = { commander: 'Commander Plan', unit: 'Command Unit Plan' };
+      const slotsGone = window._founderSlotsGone;
       const priceStr = billingMode === 'annual'
-        ? (plan === 'commander' ? '$32.50/month · $390 billed annually' : '$191/month · $2,290 billed annually')
-        : (plan === 'commander' ? '$39/month after 14-day trial' : '$229/month after 14-day trial');
+        ? (plan === 'commander' ? (slotsGone ? '$66.66/month · $799.90 billed annually' : '$32.50/month · $390 billed annually') : '$191/month · $2,290 billed annually')
+        : (plan === 'commander' ? (slotsGone ? '$79.99/month after 14-day trial' : '$39/month after 14-day trial') : '$229/month after 14-day trial');
       document.getElementById('modal-plan-name').textContent = names[plan] || 'Commander Plan';
       document.getElementById('modal-plan-price').textContent = priceStr;
       document.getElementById('checkout-modal').style.display = 'flex';
@@ -445,16 +447,16 @@
       const priceEl = document.getElementById('price-commander');
 
       if (remaining <= 0) {
-        // Slots exhausted — show $49 as current price, hide founding badge
+        // Slots exhausted — show $79.99 as current price, hide founding badge
         if (badge) badge.style.display = 'none';
         if (fullBadge) fullBadge.style.display = 'inline-flex';
         if (slashPrice) slashPrice.style.display = 'none';
-        if (priceEl) priceEl.textContent = '$49';
+        if (priceEl) priceEl.textContent = '$79.99';
         if (slotsHeader) slotsHeader.textContent = '⬡ Founding slots closed';
         // Update annual price
         const annualEl = document.getElementById('annual-commander');
-        if (annualEl) annualEl.textContent = 'Billed $490/year · 2 months free';
-        // Switch checkout to $49 price
+        if (annualEl) annualEl.textContent = 'Billed $799.90/year · 2 months free';
+        // Switch checkout to $79.99 price
         window._founderSlotsGone = true;
       } else {
         // Slots still available — show founding price with live remaining count
