@@ -49,8 +49,17 @@
         <a href="/pricing" class="nav-link">Pricing</a>
         <a href="https://app.nexuscmd.io" class="nav-cta">Launch App</a>
       </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
+  <div class="nav-mobile" id="nav-mobile">
+    <div class="nav-mobile-inner">
+      <a href="/about">About</a>
+      <a href="/pricing">Pricing</a>
+    </div>
+  </div>
 
   <!-- HERO -->
   <section class="legal-hero">
@@ -195,6 +204,7 @@
             <div class="footer-col-title">Platform</div>
             <a href="/about" class="footer-link">About</a>
             <a href="/pricing" class="footer-link">Pricing</a>
+            <a href="/thanks" class="footer-link">With Gratitude</a>
             <a href="https://app.nexuscmd.io" class="footer-link">Launch App</a>
           </div>
           <div class="footer-col">
@@ -211,5 +221,6 @@
     </div>
   </footer>
 
+<script>(function(){var b=document.getElementById("nav-hamburger"),m=document.getElementById("nav-mobile");if(b&&m){b.addEventListener("click",function(){b.classList.toggle("active");m.classList.toggle("open");});m.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){b.classList.remove("active");m.classList.remove("open");});});}})()</script>
 </body>
 </html>

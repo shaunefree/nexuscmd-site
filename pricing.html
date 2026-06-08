@@ -5,12 +5,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plans & Pricing — Nexus Command™</title>
   <meta name="description" content="Start free for 14 days. Choose the plan that fits your operation." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Nexus Command™" />
+  <meta property="og:title" content="Plans & Pricing — Nexus Command™" />
+  <meta property="og:description" content="Start free for 14 days. Commander plan from $39/month (founding) or $79.99/month standard. No charge until your trial ends." />
+  <meta property="og:url" content="https://nexuscmd.io/pricing" />
+  <meta property="og:image" content="https://nexuscmd.io/logo-full.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Plans & Pricing — Nexus Command™" />
+  <meta name="twitter:description" content="Start free for 14 days. Commander plan from $39/month (founding) or $79.99/month standard. No charge until your trial ends." />
+  <meta name="twitter:image" content="https://nexuscmd.io/logo-full.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Nexus Command™",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "url": "https://app.nexuscmd.io",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Commander — Founding Member",
+          "price": "39.00",
+          "priceCurrency": "USD",
+          "description": "Permanently locked founding rate for the first 20 subscribers. Full Helios access, all 5 intelligence modules, FORCE Engine™.",
+          "availability": "https://schema.org/LimitedAvailability",
+          "url": "https://nexuscmd.io/pricing"
+        },
+        {
+          "@type": "Offer",
+          "name": "Commander — Standard",
+          "price": "79.99",
+          "priceCurrency": "USD",
+          "description": "Standard Commander rate. Full Helios access with 14-day free trial.",
+          "url": "https://nexuscmd.io/pricing"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What happens after the free trial?",
+          "acceptedAnswer": { "@type": "Answer", "text": "On day 15, your plan activates and your card is charged. You'll receive a reminder email 3 days before. Cancel any time in your account settings — no questions asked." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need my own Anthropic API key?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Nexus Command™ runs Helios through our own server-side infrastructure. You do not need an Anthropic account or API key — everything is handled for you." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data private?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your conversations with Helios are processed through Anthropic's API on our servers and stored securely in our encrypted database. Your leadership profile is stored server-side and used exclusively to personalize your Helios experience. We do not sell your data or share it with third parties for marketing." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I switch plans?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. To change your plan, use the billing portal in your account settings or contact us at hello@nexuscmd.io. We'll get it sorted promptly." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the annual discount?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Annual billing gives you 2 months free — an effective 17% discount. Commander goes from $468/year ($39/month × 12) to $390/year." }
+        },
+        {
+          "@type": "Question",
+          "name": "When will Command Network be available?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Command Network is in development for multi-unit operators and enterprise teams. Email hello@nexuscmd.io to be notified at launch." }
+        }
+      ]
+    }
+  ]
+  </script>
 </head>
 <body>
 
@@ -26,8 +103,17 @@
         <a href="/pricing" class="active">Pricing</a>
         <a href="https://app.nexuscmd.io" class="btn-nav">Launch App</a>
       </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
+  <div class="nav-mobile" id="nav-mobile">
+    <div class="nav-mobile-inner">
+      <a href="/about">About</a>
+      <a href="/pricing" class="active">Pricing</a>
+    </div>
+  </div>
 
   <!-- PRICING HERO -->
   <section class="section pricing-hero">
@@ -269,6 +355,9 @@
       <div class="footer-links">
         <a href="/about">About</a>
         <a href="/pricing">Pricing</a>
+        <a href="/thanks">With Gratitude</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
         <a href="https://app.nexuscmd.io">Launch App</a>
         <a href="mailto:hello@nexuscmd.io">Contact</a>
       </div>
@@ -482,5 +571,6 @@
   ncTrack('pricing_page_view',{referrer:document.referrer,device_type:dt,utm_source:qs.get('utm_source')||'',utm_medium:qs.get('utm_medium')||'',utm_campaign:qs.get('utm_campaign')||''});
 })();
 </script>
+<script>(function(){var b=document.getElementById("nav-hamburger"),m=document.getElementById("nav-mobile");if(b&&m){b.addEventListener("click",function(){b.classList.toggle("active");m.classList.toggle("open");});m.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){b.classList.remove("active");m.classList.remove("open");});});}})()</script>
 </body>
 </html>

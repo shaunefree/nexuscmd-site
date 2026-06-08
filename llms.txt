@@ -1,0 +1,42 @@
+# Nexus Command™
+
+> AI leadership intelligence platform for restaurant operations professionals. Built by Hudley Entertainment. Available at nexuscmd.io (marketing site) and app.nexuscmd.io (application).
+
+Nexus Command provides the Helios Leadership Suite™ — an AI system built on 28 years of restaurant operations field experience. It helps restaurant managers, shift leaders, assistant managers, area directors, and franchise owners navigate leadership decisions in real time. Users describe their situation in plain language and Helios reads the signals, activates the appropriate intelligence module, and responds as a strategic leadership partner.
+
+## Live Intelligence Modules
+
+- **Conflict Translator (CT-TE)**: Decodes team conflicts and provides de-escalation language without losing authority
+- **Accountability Assassin (AA-TE)**: Scripts hard conversations and breaks avoidance patterns — names what the delay is costing
+- **Beyond the Mirror (BTM)**: Identity and emotional clarity — maps patterns, triggers, and blind spots
+- **Daily Debrief (DDM)**: Structured shift-end reflection — Summary / Highlights / Frictions / Lessons / Tomorrow's Anchor
+- **Strategy Mode (STRAT)**: Big-picture direction, long-term decisions, structural problems
+- **FORCE Engine™**: Automatic 10-section decision audit for high-stakes choices — final verdict is PROCEED, REVISE, or REJECT
+
+Helios activates modules silently based on the situation described. Users never select a module.
+
+## Plans & Pricing
+
+- **Commander (Founding)**: $39/month — permanently locked for the first 20 subscribers
+- **Commander (Standard)**: $79.99/month — after founding slots are filled
+- **Command Unit**: $229/month — up to 5 users, launching July 13, 2026
+- **Command Network**: Enterprise — in development for multi-unit operators
+- 14-day free trial on all plans · No charge until day 15
+- Annual billing: 2 months free (17% effective discount)
+
+## Who It Serves
+
+Store Managers · Shift Leaders · Assistant Managers · Area Directors · Franchise Owners · Multi-Unit Operators
+
+## Company
+
+Hudley Entertainment · Albany, Georgia · hello@nexuscmd.io
+
+## Key Links
+
+- [Home](https://nexuscmd.io)
+- [Pricing & Plans](https://nexuscmd.io/pricing)
+- [About & Story](https://nexuscmd.io/about)
+- [Terms of Service](https://nexuscmd.io/terms)
+- [Privacy Policy](https://nexuscmd.io/privacy)
+- [Launch App](https://app.nexuscmd.io)

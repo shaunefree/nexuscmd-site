@@ -1019,8 +1019,87 @@ strong { color: var(--gold-light); }
 }
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
+/* ── Mobile Nav ───────────────────────────────────────────────────────────── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--gold, #C9A84C);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav-hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0; right: 0;
+  background: rgba(8,8,8,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  z-index: 99;
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.22s ease, opacity 0.2s ease;
+}
+.nav-mobile.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.nav-mobile-inner {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em 2em 2em;
+  gap: 0.25em;
+}
+.nav-mobile-inner a {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8em;
+  letter-spacing: 0.12em;
+  color: var(--text-dim, #aaa);
+  padding: 0.75em 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: color 0.2s;
+}
+.nav-mobile-inner a:last-child { border-bottom: none; }
+.nav-mobile-inner a:hover, .nav-mobile-inner a.active { color: var(--gold, #C9A84C); }
+.nav-mobile-inner .btn-nav-mobile {
+  margin-top: 1em;
+  text-align: center;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 5px;
+  padding: 0.75em 1em;
+  color: var(--gold, #C9A84C) !important;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78em;
+  letter-spacing: 0.12em;
+}
+
 @media (max-width: 768px) {
   .nav-links a:not(.btn-nav) { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-mobile { display: block; }
   .hero { padding: 7em 1.2em 4em; }
   .section { padding: 4em 1.2em; }
   .force-section { grid-template-columns: 1fr; gap: 2.5em; }

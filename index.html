@@ -5,12 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nexus Command™ — AI Leadership Intelligence for Restaurant Operations</title>
   <meta name="description" content="Helios is the AI leadership system built for restaurant operators. Decision-making, conflict resolution, accountability, and operational clarity — in your pocket." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Nexus Command™" />
+  <meta property="og:title" content="Nexus Command™ — AI Leadership Intelligence for Restaurant Operations" />
+  <meta property="og:description" content="Helios is the AI leadership partner built for restaurant operators. Conflict resolution, accountability coaching, daily debriefs, and high-stakes decisions — available 24/7." />
+  <meta property="og:url" content="https://nexuscmd.io/" />
+  <meta property="og:image" content="https://nexuscmd.io/logo-full.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Nexus Command™ — AI Leadership Intelligence for Restaurant Operations" />
+  <meta name="twitter:description" content="Helios is the AI leadership partner built for restaurant operators. Conflict resolution, accountability coaching, daily debriefs, and high-stakes decisions — available 24/7." />
+  <meta name="twitter:image" content="https://nexuscmd.io/logo-full.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Nexus Command™",
+      "url": "https://nexuscmd.io",
+      "description": "AI leadership intelligence platform for restaurant operations professionals.",
+      "publisher": { "@type": "Organization", "name": "Hudley Entertainment" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Nexus Command™",
+      "alternateName": "Helios Leadership Suite™",
+      "description": "AI leadership intelligence for restaurant operations. Five specialized modules — Conflict Translator, Accountability Assassin, Beyond the Mirror, Daily Debrief, and Strategy Mode — plus the FORCE Engine™ for high-stakes decisions.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web, iOS, Android",
+      "url": "https://app.nexuscmd.io",
+      "featureList": "Conflict resolution coaching, Accountability scripting, Leadership identity clarity, Daily shift debriefs, Strategic decision support, FORCE Engine™ decision audit",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Commander — Founding Member",
+          "price": "39.00",
+          "priceCurrency": "USD",
+          "description": "Founding member rate locked permanently for the first 20 subscribers. Full Helios access, all 5 intelligence modules, FORCE Engine™, 14-day free trial."
+        },
+        {
+          "@type": "Offer",
+          "name": "Commander — Standard",
+          "price": "79.99",
+          "priceCurrency": "USD",
+          "description": "Standard Commander rate after founding slots are filled. Full Helios access with 14-day free trial."
+        }
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "Hudley Entertainment",
+        "url": "https://nexuscmd.io",
+        "contactPoint": { "@type": "ContactPoint", "email": "hello@nexuscmd.io", "contactType": "customer support" }
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Hudley Entertainment",
+      "url": "https://nexuscmd.io",
+      "email": "hello@nexuscmd.io",
+      "address": { "@type": "PostalAddress", "addressLocality": "Albany", "addressRegion": "GA", "addressCountry": "US" },
+      "description": "Hudley Entertainment operates Nexus Command™ — an AI leadership intelligence platform built from 28 years of restaurant operations experience."
+    }
+  ]
+  </script>
 </head>
 <body>
 
@@ -26,8 +90,17 @@
         <a href="/pricing.html">Pricing</a>
         <a href="https://app.nexuscmd.io" class="btn-nav">Launch App</a>
       </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
+  <div class="nav-mobile" id="nav-mobile">
+    <div class="nav-mobile-inner">
+      <a href="/about.html">About</a>
+      <a href="/pricing.html">Pricing</a>
+    </div>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -220,6 +293,9 @@
       <div class="footer-links">
         <a href="/about.html">About</a>
         <a href="/pricing.html">Pricing</a>
+        <a href="/thanks.html">With Gratitude</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
         <a href="https://app.nexuscmd.io">Launch App</a>
         <a href="mailto:hello@nexuscmd.io">Contact</a>
       </div>
@@ -243,5 +319,6 @@
   });
 })();
 </script>
+<script>(function(){var b=document.getElementById("nav-hamburger"),m=document.getElementById("nav-mobile");if(b&&m){b.addEventListener("click",function(){b.classList.toggle("active");m.classList.toggle("open");});m.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){b.classList.remove("active");m.classList.remove("open");});});}})()</script>
 </body>
 </html>

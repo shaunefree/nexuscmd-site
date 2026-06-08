@@ -1,0 +1,8 @@
+# Vercel internals
+.vercel/
+
+# Large binary assets (read only when explicitly needed)
+logo-icon-512.png
+logo-full.png
+apple-touch-icon.png
+favicon-32.png
