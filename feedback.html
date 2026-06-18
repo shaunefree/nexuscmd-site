@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback — Nexus Command™</title>
+  <meta name="description" content="Share feedback, report a bug, or request a feature. Every submission goes directly to the founder." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Nexus Command™" />
+  <meta property="og:title" content="Feedback — Nexus Command™" />
+  <meta property="og:description" content="Share feedback, report a bug, or request a feature. Every submission goes directly to the founder." />
+  <meta property="og:url" content="https://nexuscmd.io/feedback" />
+  <meta property="og:image" content="https://nexuscmd.io/logo-full.png" />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="/logo-icon-512.png" alt="Nexus Command" style="width:44px;height:44px;border-radius:8px;object-fit:contain;" />
+        <span class="logo-text">Nexus Command™</span>
+      </a>
+      <div class="nav-links">
+        <a href="/about.html">About</a>
+        <a href="/feedback.html" class="active">Feedback</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="https://app.nexuscmd.io" class="btn-nav">Launch App</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="nav-mobile">
+    <div class="nav-mobile-inner">
+      <a href="/about.html">About</a>
+      <a href="/feedback.html" class="active">Feedback</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="https://app.nexuscmd.io" class="btn-nav-mobile">Launch App</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="feedback-hero">
+    <div class="eyebrow">Share Your Voice</div>
+    <h1 class="hero-title">Feedback goes <span class="gold">directly to the founder.</span></h1>
+    <p class="hero-sub">Bug reports, feature requests, or honest observations about what's working and what isn't — every submission is read personally. Nothing goes into a ticket queue.</p>
+  </div>
+
+  <!-- FORM -->
+  <div class="feedback-form-section" id="feedback-section">
+
+    <!-- Success state (hidden by default) -->
+    <div class="feedback-success" id="feedback-success" style="display:none;">
+      <div class="success-icon">◆</div>
+      <h2>Received.</h2>
+      <p>Thank you for taking the time. I read every submission personally and respond when a reply is warranted.</p>
+      <a href="/" class="btn-ghost">Back to Home</a>
+    </div>
+
+    <!-- Form -->
+    <div class="feedback-form-wrap" id="feedback-form-wrap">
+      <div id="feedback-error" class="form-error" style="display:none;"></div>
+
+      <div class="feedback-row">
+        <div class="form-group">
+          <label for="fb-name">Name</label>
+          <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name" required />
+        </div>
+        <div class="form-group">
+          <label for="fb-email">Email</label>
+          <input type="email" id="fb-email" name="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top:0.9em;">
+        <label for="fb-category">Category</label>
+        <select id="fb-category" name="category">
+          <option value="General Feedback">General Feedback</option>
+          <option value="Bug Report">Bug Report</option>
+          <option value="Feature Request">Feature Request</option>
+          <option value="Billing Question">Billing Question</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-top:0.9em;">
+        <label for="fb-message">Message</label>
+        <textarea id="fb-message" name="message" placeholder="Describe your feedback in detail..." maxlength="2000"></textarea>
+        <div class="char-count" id="char-count">0 / 2000</div>
+      </div>
+
+      <div style="margin-top:1.4em;">
+        <button class="btn-primary" id="fb-submit" type="button" style="width:100%;padding:0.85em;">Send Feedback</button>
+      </div>
+
+      <p style="font-size:0.75em;color:var(--text-muted);text-align:center;margin-top:1em;line-height:1.6;">Your information is used only to respond to your feedback and is never shared or sold.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="/logo-icon-512.png" alt="Nexus Command" style="width:28px;height:28px;border-radius:6px;object-fit:contain;" />
+        <span>Nexus Command™</span>
+      </div>
+      <div class="footer-links">
+        <a href="/about.html">About</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/feedback.html">Feedback</a>
+        <a href="/thanks.html">With Gratitude</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="https://app.nexuscmd.io">Launch App</a>
+        <a href="mailto:hello@nexuscmd.io">Contact</a>
+      </div>
+      <div class="footer-copy">© 2026 Nexus Command™. All rights reserved. · nexuscmd.io</div>
+    </div>
+  </footer>
+
+<script>
+(function() {
+  // Mobile nav
+  var b = document.getElementById("nav-hamburger"), m = document.getElementById("nav-mobile");
+  if (b && m) {
+    b.addEventListener("click", function() { b.classList.toggle("active"); m.classList.toggle("open"); });
+    m.querySelectorAll("a").forEach(function(a) { a.addEventListener("click", function() { b.classList.remove("active"); m.classList.remove("open"); }); });
+  }
+
+  // Character counter
+  var msgEl = document.getElementById("fb-message"), countEl = document.getElementById("char-count");
+  if (msgEl && countEl) {
+    msgEl.addEventListener("input", function() {
+      var len = msgEl.value.length;
+      countEl.textContent = len + " / 2000";
+      countEl.classList.toggle("warn", len > 1800);
+    });
+  }
+
+  // Form submission
+  document.getElementById("fb-submit").addEventListener("click", function() {
+    var name     = document.getElementById("fb-name").value.trim();
+    var email    = document.getElementById("fb-email").value.trim();
+    var category = document.getElementById("fb-category").value;
+    var message  = document.getElementById("fb-message").value.trim();
+    var errEl    = document.getElementById("feedback-error");
+
+    errEl.style.display = "none";
+
+    if (!name || name.length < 2)           { showErr("Please enter your name."); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr("Please enter a valid email address."); return; }
+    if (!message || message.length < 10)    { showErr("Please provide at least 10 characters in your message."); return; }
+    if (message.length > 2000)              { showErr("Message must be under 2000 characters."); return; }
+
+    var btn = document.getElementById("fb-submit");
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+
+    fetch("https://app.nexuscmd.io/api/feedback-public", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name, email: email, category: category, message: message })
+    })
+    .then(function(res) { return res.json().then(function(d) { return { ok: res.ok, data: d }; }); })
+    .then(function(r) {
+      if (!r.ok) { showErr(r.data.error || "Something went wrong. Please try again."); btn.disabled = false; btn.textContent = "Send Feedback"; return; }
+      document.getElementById("feedback-form-wrap").style.display = "none";
+      document.getElementById("feedback-success").style.display = "block";
+    })
+    .catch(function() {
+      showErr("Network error. Please check your connection and try again.");
+      btn.disabled = false;
+      btn.textContent = "Send Feedback";
+    });
+
+    function showErr(msg) { errEl.textContent = msg; errEl.style.display = "block"; errEl.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
+  });
+})();
+</script>
+
+</body>
+</html>
