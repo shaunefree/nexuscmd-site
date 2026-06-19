@@ -22,58 +22,72 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
   <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Nexus Command™",
-      "url": "https://nexuscmd.io",
-      "description": "AI leadership intelligence platform for restaurant operations professionals.",
-      "publisher": { "@type": "Organization", "name": "Hudley Entertainment" }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Nexus Command™",
-      "alternateName": "Helios Leadership Suite™",
-      "description": "AI leadership intelligence for restaurant operations. Five specialized modules — Conflict Translator, Accountability Assassin, Beyond the Mirror, Daily Debrief, and Strategy Mode — plus the FORCE Engine™ for high-stakes decisions.",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web, iOS, Android",
-      "url": "https://app.nexuscmd.io",
-      "featureList": "Conflict resolution coaching, Accountability scripting, Leadership identity clarity, Daily shift debriefs, Strategic decision support, FORCE Engine™ decision audit",
-      "offers": [
-        {
-          "@type": "Offer",
-          "name": "Commander — Founding Member",
-          "price": "39.00",
-          "priceCurrency": "USD",
-          "description": "Founding member rate locked permanently for the first 20 subscribers. Full Helios access, all 5 intelligence modules, FORCE Engine™, 14-day free trial."
-        },
-        {
-          "@type": "Offer",
-          "name": "Commander — Standard",
-          "price": "79.99",
-          "priceCurrency": "USD",
-          "description": "Standard Commander rate after founding slots are filled. Full Helios access with 14-day free trial."
-        }
-      ],
-      "publisher": {
-        "@type": "Organization",
-        "name": "Hudley Entertainment",
-        "url": "https://nexuscmd.io",
-        "contactPoint": { "@type": "ContactPoint", "email": "hello@nexuscmd.io", "contactType": "customer support" }
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Hudley Entertainment",
-      "url": "https://nexuscmd.io",
-      "email": "hello@nexuscmd.io",
-      "address": { "@type": "PostalAddress", "addressLocality": "Albany", "addressRegion": "GA", "addressCountry": "US" },
-      "description": "Hudley Entertainment operates Nexus Command™ — an AI leadership intelligence platform built from 28 years of restaurant operations experience."
-    }
-  ]
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://nexuscmd.io/#organization",
+    "name": "Nexus Command",
+    "legalName": "Nexus Command",
+    "brand": { "@type": "Brand", "name": "Nexus Command™" },
+    "url": "https://nexuscmd.io",
+    "logo": { "@type": "ImageObject", "url": "https://nexuscmd.io/logo-full.png", "width": 512, "height": 512 },
+    "description": "Nexus Command is an AI-powered leadership intelligence platform built exclusively for restaurant operations professionals. It provides conflict resolution, accountability coaching, daily debrief structure, operations analysis, and high-stakes decision support through the Helios Leadership Suite.",
+    "foundingDate": "2025",
+    "founder": { "@type": "Person", "@id": "https://nexuscmd.io/about#shaun-hudley", "name": "Shaun Hudley", "jobTitle": "Founder & Creator" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Albany", "addressRegion": "GA", "addressCountry": "US" },
+    "parentOrganization": { "@type": "Organization", "name": "Hudley Entertainment" },
+    "contactPoint": { "@type": "ContactPoint", "email": "hello@nexuscmd.io", "contactType": "customer support" },
+    "sameAs": ["https://nexuscmd.io", "https://app.nexuscmd.io"],
+    "knowsAbout": ["AI Leadership Intelligence","Restaurant Operations Management","Conflict Resolution for Managers","Team Accountability Systems","Leadership Coaching AI","Restaurant Manager Training","Decision Support for Restaurant Leaders"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": "https://nexuscmd.io/#software",
+    "name": "Nexus Command",
+    "alternateName": ["Nexus Command™", "Helios Leadership Suite"],
+    "url": "https://nexuscmd.io",
+    "applicationUrl": "https://app.nexuscmd.io",
+    "applicationCategory": "BusinessApplication",
+    "applicationSubCategory": "Leadership Intelligence Platform",
+    "operatingSystem": "Web, iOS, Android",
+    "description": "Nexus Command is an AI leadership intelligence platform for restaurant operations professionals. It runs the Helios Leadership Suite — six intelligence modules including the Conflict Translator, Accountability Assassin, Beyond the Mirror, Daily Debrief Manager, Operations Auditor, and Helios Core LSCP — plus the FORCE Engine for high-stakes decision support.",
+    "featureList": ["Conflict Translator (CT-TE)","Accountability Assassin (AA-TE)","Beyond the Mirror (BTM)","Daily Debrief Manager (DDM)","Operations Auditor (OPA)","Helios Core LSCP","FORCE Engine — 10-section decision integrity protocol","Personalized onboarding leadership profile","Mobile-first — works on any device"],
+    "softwareVersion": "2.0",
+    "creator": { "@type": "Organization", "@id": "https://nexuscmd.io/#organization" },
+    "offers": [
+      { "@type": "Offer", "name": "Commander — Founding Member Monthly", "price": "39.00", "priceCurrency": "USD", "description": "Founding member rate locked permanently. Full Helios access for 1 user.", "availability": "https://schema.org/InStock", "url": "https://nexuscmd.io/pricing" },
+      { "@type": "Offer", "name": "Commander — Standard Monthly", "price": "79.99", "priceCurrency": "USD", "description": "Standard Commander rate. Full Helios access for 1 user. 14-day free trial.", "availability": "https://schema.org/InStock", "url": "https://nexuscmd.io/pricing" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is Nexus Command?", "acceptedAnswer": { "@type": "Answer", "text": "Nexus Command is an AI-powered leadership intelligence platform built exclusively for restaurant operations professionals. It is not a general-purpose AI assistant. It runs the Helios Leadership Suite — six specialized modules that activate automatically based on what a manager describes, providing conflict resolution, accountability coaching, daily debrief structure, operations analysis, and high-stakes decision support." } },
+      { "@type": "Question", "name": "What is the Helios Leadership Suite?", "acceptedAnswer": { "@type": "Answer", "text": "The Helios Leadership Suite is the core intelligence system inside Nexus Command. It consists of six modules: Conflict Translator (CT-TE), Accountability Assassin (AA-TE), Beyond the Mirror (BTM), Daily Debrief Manager (DDM), Operations Auditor (OPA), and Helios Core LSCP. Helios reads what a manager describes and activates the appropriate module automatically." } },
+      { "@type": "Question", "name": "What is the FORCE Engine?", "acceptedAnswer": { "@type": "Answer", "text": "The FORCE Engine is a 10-section decision integrity protocol inside Nexus Command that activates automatically when a manager faces a major career decision, financial investment, or high-stakes commitment. It evaluates the decision from multiple angles and delivers a final verdict of PROCEED, REVISE, or REJECT." } },
+      { "@type": "Question", "name": "Who is Nexus Command built for?", "acceptedAnswer": { "@type": "Answer", "text": "Nexus Command is built for restaurant operations professionals at every leadership level — store managers, shift leaders, assistant managers, area directors, franchise owners, and multi-unit operators. It is purpose-built for the restaurant industry and is not a general-purpose AI tool." } },
+      { "@type": "Question", "name": "How much does Nexus Command cost?", "acceptedAnswer": { "@type": "Answer", "text": "The Commander plan is $39 per month for founding members (standard pricing is $79.99 per month). Annual billing is $390 per year for founding members. All plans include a 14-day free trial with no charge until day 15." } }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://nexuscmd.io/#website",
+    "url": "https://nexuscmd.io",
+    "name": "Nexus Command",
+    "alternateName": "Nexus Command™",
+    "description": "AI-powered leadership intelligence platform for restaurant operations professionals.",
+    "publisher": { "@type": "Organization", "@id": "https://nexuscmd.io/#organization" },
+    "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": "https://nexuscmd.io/?q={search_term_string}" }, "query-input": "required name=search_term_string" }
+  }
   </script>
 </head>
 <body>
@@ -88,6 +102,8 @@
       <div class="nav-links">
         <a href="/about.html">About</a>
         <a href="/feedback.html">Feedback</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/founder.html">Founder</a>
         <a href="/pricing.html">Pricing</a>
         <a href="https://app.nexuscmd.io" class="btn-nav">Launch App</a>
       </div>
@@ -100,6 +116,8 @@
     <div class="nav-mobile-inner">
       <a href="/about.html">About</a>
       <a href="/feedback.html">Feedback</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/founder.html">Founder</a>
       <a href="/pricing.html">Pricing</a>
     </div>
   </div>

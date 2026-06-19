@@ -22,71 +22,62 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
   <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Nexus Command™",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web",
-      "url": "https://app.nexuscmd.io",
-      "offers": [
-        {
-          "@type": "Offer",
-          "name": "Commander — Founding Member",
-          "price": "39.00",
-          "priceCurrency": "USD",
-          "description": "Permanently locked founding rate for the first 20 subscribers. Full Helios access, all 5 intelligence modules, FORCE Engine™.",
-          "availability": "https://schema.org/LimitedAvailability",
-          "url": "https://nexuscmd.io/pricing"
-        },
-        {
-          "@type": "Offer",
-          "name": "Commander — Standard",
-          "price": "79.99",
-          "priceCurrency": "USD",
-          "description": "Standard Commander rate. Full Helios access with 14-day free trial.",
-          "url": "https://nexuscmd.io/pricing"
-        }
-      ]
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What happens after the free trial?",
-          "acceptedAnswer": { "@type": "Answer", "text": "On day 15, your plan activates and your card is charged. You'll receive a reminder email 3 days before. Cancel any time in your account settings — no questions asked." }
-        },
-        {
-          "@type": "Question",
-          "name": "Do I need my own Anthropic API key?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Nexus Command™ runs Helios through our own server-side infrastructure. You do not need an Anthropic account or API key — everything is handled for you." }
-        },
-        {
-          "@type": "Question",
-          "name": "Is my data private?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your conversations with Helios are processed through Anthropic's API on our servers and stored securely in our encrypted database. Your leadership profile is stored server-side and used exclusively to personalize your Helios experience. We do not sell your data or share it with third parties for marketing." }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I switch plans?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. To change your plan, use the billing portal in your account settings or contact us at hello@nexuscmd.io. We'll get it sorted promptly." }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the annual discount?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Annual billing gives you 2 months free — an effective 17% discount. Commander goes from $468/year ($39/month × 12) to $390/year." }
-        },
-        {
-          "@type": "Question",
-          "name": "When will Command Network be available?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Command Network is in development for multi-unit operators and enterprise teams. Email hello@nexuscmd.io to be notified at launch." }
-        }
-      ]
-    }
-  ]
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": "https://nexuscmd.io/pricing#commander",
+    "name": "Nexus Command — Commander Plan",
+    "description": "The Commander plan gives individual restaurant leaders full access to the Helios Leadership Suite — all six intelligence modules, the FORCE Engine, personalized onboarding profile, daily debrief structure, and pattern tracking. Mobile-first, works on any device.",
+    "brand": { "@type": "Brand", "name": "Nexus Command™" },
+    "url": "https://nexuscmd.io/pricing",
+    "image": "https://nexuscmd.io/logo-full.png",
+    "category": "AI Leadership Software",
+    "audience": { "@type": "Audience", "audienceType": "Restaurant Operations Professionals", "description": "Store managers, shift leaders, assistant managers, area directors, and franchise owners in the restaurant industry" },
+    "offers": [
+      { "@type": "Offer", "name": "Commander — Founding Member Monthly", "price": "39.00", "priceCurrency": "USD", "description": "Founding member rate. Locks in permanently at $39/month. Full Helios access for 1 user.", "availability": "https://schema.org/InStock", "url": "https://nexuscmd.io/pricing", "seller": { "@type": "Organization", "@id": "https://nexuscmd.io/#organization" } },
+      { "@type": "Offer", "name": "Commander — Standard Monthly", "price": "79.99", "priceCurrency": "USD", "description": "Standard Commander rate. Full Helios access for 1 user.", "availability": "https://schema.org/InStock", "url": "https://nexuscmd.io/pricing", "seller": { "@type": "Organization", "@id": "https://nexuscmd.io/#organization" } },
+      { "@type": "Offer", "name": "Commander — Founding Member Annual", "price": "390.00", "priceCurrency": "USD", "description": "Founding member annual rate — $390/year. Includes 2 months free versus monthly billing.", "availability": "https://schema.org/InStock", "url": "https://nexuscmd.io/pricing", "seller": { "@type": "Organization", "@id": "https://nexuscmd.io/#organization" } }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What happens after the Nexus Command free trial?", "acceptedAnswer": { "@type": "Answer", "text": "After the 14-day free trial ends, your Commander plan activates and your card is charged. You will receive a reminder email 3 days before the trial ends. You can cancel at any time in your account settings before day 15 at no cost." } },
+      { "@type": "Question", "name": "Do I need my own Anthropic API key to use Nexus Command?", "acceptedAnswer": { "@type": "Answer", "text": "No. Nexus Command runs Helios through its own server-side infrastructure. You do not need an Anthropic account or API key — everything is handled for you as part of the subscription." } },
+      { "@type": "Question", "name": "Is my data private on Nexus Command?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Your conversations with Helios are processed through Anthropic's API on Nexus Command's servers and stored securely in an encrypted database. Your leadership profile is stored server-side and used exclusively to personalize your experience. Nexus Command does not sell your data or share it with third parties for marketing." } },
+      { "@type": "Question", "name": "How much does Nexus Command cost per month?", "acceptedAnswer": { "@type": "Answer", "text": "Nexus Command's Commander plan is $39 per month for founding members (standard rate is $79.99 per month). Annual billing is $390 per year for founding members, which saves the equivalent of two months versus monthly billing. All plans include a 14-day free trial." } },
+      { "@type": "Question", "name": "Can I cancel Nexus Command at any time?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can cancel your Nexus Command subscription at any time through the billing portal in your account settings. If you cancel during the 14-day free trial before day 15, you will not be charged." } },
+      { "@type": "Question", "name": "What is the Nexus Command annual discount?", "acceptedAnswer": { "@type": "Answer", "text": "Annual billing gives you two months free — an effective 17% discount. The Commander founding member annual plan is $390 per year versus $468 per year if billed monthly." } }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://nexuscmd.io/pricing#page",
+    "url": "https://nexuscmd.io/pricing",
+    "name": "Plans & Pricing — Nexus Command",
+    "description": "Nexus Command pricing plans for restaurant operations professionals. Commander plan from $39 per month for founding members. 14-day free trial included.",
+    "isPartOf": { "@type": "WebSite", "@id": "https://nexuscmd.io/#website" },
+    "breadcrumb": { "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Nexus Command", "item": "https://nexuscmd.io" }, { "@type": "ListItem", "position": 2, "name": "Pricing", "item": "https://nexuscmd.io/pricing" } ] }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://nexuscmd.io/#website",
+    "url": "https://nexuscmd.io",
+    "name": "Nexus Command",
+    "alternateName": "Nexus Command™",
+    "description": "AI-powered leadership intelligence platform for restaurant operations professionals.",
+    "publisher": { "@type": "Organization", "@id": "https://nexuscmd.io/#organization" },
+    "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": "https://nexuscmd.io/?q={search_term_string}" }, "query-input": "required name=search_term_string" }
+  }
   </script>
 </head>
 <body>
@@ -101,6 +92,8 @@
       <div class="nav-links">
         <a href="/about">About</a>
         <a href="/feedback.html">Feedback</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/founder.html">Founder</a>
         <a href="/pricing" class="active">Pricing</a>
         <a href="https://app.nexuscmd.io" class="btn-nav">Launch App</a>
       </div>
@@ -113,6 +106,8 @@
     <div class="nav-mobile-inner">
       <a href="/about">About</a>
       <a href="/feedback.html">Feedback</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/founder.html">Founder</a>
       <a href="/pricing" class="active">Pricing</a>
     </div>
   </div>
