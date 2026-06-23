@@ -193,5 +193,26 @@
   </footer>
 
 <script>(function(){var b=document.getElementById("nav-hamburger"),m=document.getElementById("nav-mobile");if(b&&m){b.addEventListener("click",function(){b.classList.toggle("active");m.classList.toggle("open");});m.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){b.classList.remove("active");m.classList.remove("open");});});}})()</script>
+<script>
+  (function() {
+    var btns = document.querySelectorAll('.nav-dropdown-btn');
+    btns.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var dropdown = this.closest('.nav-dropdown');
+        var isOpen = dropdown.classList.contains('open');
+        document.querySelectorAll('.nav-dropdown.open').forEach(function(d) {
+          d.classList.remove('open');
+        });
+        if (!isOpen) dropdown.classList.add('open');
+      });
+    });
+    document.addEventListener('click', function() {
+      document.querySelectorAll('.nav-dropdown.open').forEach(function(d) {
+        d.classList.remove('open');
+      });
+    });
+  })();
+</script>
 </body>
 </html>
