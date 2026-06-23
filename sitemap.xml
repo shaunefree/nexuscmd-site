@@ -30,4 +30,31 @@
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://nexuscmd.io/faq</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://nexuscmd.io/examples</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://nexuscmd.io/founder</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://nexuscmd.io/feedback</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url><loc>https://nexuscmd.io/how-to-handle-crew-conflict</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nexuscmd.io/ai-tools-for-restaurant-managers</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nexuscmd.io/employee-accountability-restaurants</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nexuscmd.io/restaurant-manager-daily-debrief</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nexuscmd.io/how-nexus-command-works</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nexuscmd.io/restaurant-leadership-coaching</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nexuscmd.io/ai-for-shift-leaders</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 </urlset>

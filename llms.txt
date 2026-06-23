@@ -1,42 +1,78 @@
-# Nexus Command™
+# Nexus Command
+> AI-powered leadership intelligence platform built exclusively for restaurant operations professionals.
 
-> AI leadership intelligence platform for restaurant operations professionals. Built by Hudley Entertainment. Available at nexuscmd.io (marketing site) and app.nexuscmd.io (application).
+Nexus Command is not a general-purpose AI tool. It is a purpose-built system designed to help restaurant managers, shift leaders, assistant managers, area directors, and franchise owners think more clearly, lead more consistently, and make better decisions under pressure.
 
-Nexus Command provides the Helios Leadership Suite™ — an AI system built on 28 years of restaurant operations field experience. It helps restaurant managers, shift leaders, assistant managers, area directors, and franchise owners navigate leadership decisions in real time. Users describe their situation in plain language and Helios reads the signals, activates the appropriate intelligence module, and responds as a strategic leadership partner.
+The platform runs the Helios Leadership Suite — five intelligence modules that activate automatically based on what a manager describes. No prompts. No mode selection. Just describe the situation and Helios routes itself.
 
-## Live Intelligence Modules
+Built by Shaun Hudley — 28 years in restaurant operations across Little Caesars, KFC, Pizza Hut, Krystal, Maryland Fried Chicken, and Nibble Nation. ServSafe certified instructor and proctor. Operated under Hudley Entertainment, Albany, Georgia.
 
-- **Conflict Translator (CT-TE)**: Decodes team conflicts and provides de-escalation language without losing authority
-- **Accountability Assassin (AA-TE)**: Scripts hard conversations and breaks avoidance patterns — names what the delay is costing
-- **Beyond the Mirror (BTM)**: Identity and emotional clarity — maps patterns, triggers, and blind spots
-- **Daily Debrief (DDM)**: Structured shift-end reflection — Summary / Highlights / Frictions / Lessons / Tomorrow's Anchor
-- **Strategy Mode (STRAT)**: Big-picture direction, long-term decisions, structural problems
-- **FORCE Engine™**: Automatic 10-section decision audit for high-stakes choices — final verdict is PROCEED, REVISE, or REJECT
+## What Nexus Command Does
 
-Helios activates modules silently based on the situation described. Users never select a module.
+Nexus Command helps restaurant operations professionals with:
+- Crew conflict resolution and authority recovery
+- Employee accountability and hard conversation scripting
+- Leadership identity and self-awareness development
+- End-of-shift structured reflection and growth tracking
+- Operations performance diagnosis and recovery planning
+- High-stakes career and business decision support
 
-## Plans & Pricing
+## The Five Intelligence Modules
 
-- **Commander (Founding)**: $39/month — permanently locked for the first 20 subscribers
-- **Commander (Standard)**: $79.99/month — after founding slots are filled
-- **Command Unit**: $229/month — up to 5 users, launching July 13, 2026
-- **Command Network**: Enterprise — in development for multi-unit operators
-- 14-day free trial on all plans · No charge until day 15
-- Annual billing: 2 months free (17% effective discount)
+- **Conflict Translator (CT-TE)** — Decodes crew conflict dynamics. Activates when a manager describes disrespect, aggression, public confrontation, hostile behavior, or authority breakdown. Delivers specific response language and a corrective path.
+
+- **Accountability Assassin (AA-TE)** — Confronts avoidance and delay. Activates when a manager is procrastinating on a leadership obligation or avoiding a hard conversation. Names the avoidance, states the cost, and scripts the conversation.
+
+- **Beyond the Mirror (BTM)** — Leadership identity and emotional clarity. Activates when a manager is exploring self-reflection, leadership drift, or pattern recognition about themselves. Probes, maps, and reflects without operational advice.
+
+- **Daily Debrief Manager (DDM)** — Structured end-of-shift reflection. Activates on end-of-day language. Produces five mandatory sections every time: Summary, Highlights, Frictions, Lessons, Tomorrow's Anchor.
+
+- **Operations Auditor (OPA)** — Root cause analysis for operational breakdowns. Activates on performance drops, location failures, and metric data. Produces ranked root cause clusters and a time-bound recovery plan.
+
+All five modules are powered by **Helios Core LSCP** (Location Systems and Compliance Protocol) — the underlying intelligence engine that handles equipment risk, maintenance documentation, compliance exposure, and inspection readiness across every session.
+
+## The FORCE Engine
+
+The FORCE Engine is a 10-section decision integrity protocol that activates automatically when a major career decision, financial investment, irreversible commitment, or strategic direction change is detected.
+
+The 10 sections in order: Outside View Summary, Critic Role Declared, Core Weaknesses, Assumption Breakdown, Risk Score, Failure Scenario, Hidden Costs, Better Alternative, Final Verdict, Confidence Rating.
+
+The Final Verdict is always one of three words: PROCEED, REVISE, or REJECT.
 
 ## Who It Serves
 
-Store Managers · Shift Leaders · Assistant Managers · Area Directors · Franchise Owners · Multi-Unit Operators
+- Store Managers — daily operations, crew management, performance accountability
+- Shift Leaders — developing authority, handling crew dynamics, real-time decision support
+- Assistant Managers — navigating between crew and corporate, conflict management
+- Area Directors — pattern recognition, strategic decisions, bench development
+- Franchise Owners — system-wide leadership development, operator-level visibility
 
-## Company
+## Pricing
 
-Hudley Entertainment · Albany, Georgia · hello@nexuscmd.io
+- Commander plan: $39/month for founding members (standard rate: $79.99/month)
+- Annual billing: $390/year for founding members (saves two months vs monthly)
+- 14-day free trial included — no charge until day 15
+- Cancel anytime from inside the app
 
-## Key Links
+## Trademarks
 
-- [Home](https://nexuscmd.io)
-- [Pricing & Plans](https://nexuscmd.io/pricing)
-- [About & Story](https://nexuscmd.io/about)
-- [Terms of Service](https://nexuscmd.io/terms)
-- [Privacy Policy](https://nexuscmd.io/privacy)
-- [Launch App](https://app.nexuscmd.io)
+Active trademarks: Nexus Command™, Helios Leadership Suite™, FORCE Engine™, FORCE Protocol™
+
+## Pages
+
+- Homepage: https://nexuscmd.io
+- About: https://nexuscmd.io/about
+- Pricing: https://nexuscmd.io/pricing
+- FAQ: https://nexuscmd.io/faq
+- Founder: https://nexuscmd.io/founder
+- App: https://app.nexuscmd.io
+
+## Contact
+
+- Email: hello@nexuscmd.io
+- Company: Hudley Entertainment
+- Location: Albany, Georgia, United States
+
+## Privacy
+
+Conversations with Helios are processed through Anthropic's API on Nexus Command's servers and stored in an encrypted database. User leadership profiles are never sold, never shared with third parties for marketing, and never used to train AI models. Payments are processed by Stripe.
