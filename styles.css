@@ -499,7 +499,7 @@ strong { color: var(--gold-light); }
   font-family: 'Cinzel', serif;
   font-size: 0.65em;
   letter-spacing: 0.1em;
-  color: var(--text-muted);
+  color: var(--gold);
   transition: color 0.2s;
 }
 
