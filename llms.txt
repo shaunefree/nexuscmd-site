@@ -3,7 +3,7 @@
 
 Nexus Command is not a general-purpose AI tool. It is a purpose-built system designed to help restaurant managers, shift leaders, assistant managers, area directors, and franchise owners think more clearly, lead more consistently, and make better decisions under pressure.
 
-The platform runs the Helios Leadership Suite — five intelligence modules that activate automatically based on what a manager describes. No prompts. No mode selection. Just describe the situation and Helios routes itself.
+The platform runs the Helios Leadership Suite™ v5.0 — five specialized intelligence layers that activate automatically based on what a manager describes. No prompts. No mode selection. Just describe the situation and Helios routes itself.
 
 Built by Shaun Hudley — 28 years in restaurant operations across Little Caesars, KFC, Pizza Hut, Krystal, Maryland Fried Chicken, and Nibble Nation. ServSafe certified instructor and proctor. Operated under Hudley Entertainment, Albany, Georgia.
 
