@@ -660,5 +660,102 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(13,13,13,0.95); b
     });
   })();
 </script>
+
+<div id="nc-lead-overlay" class="modal-overlay" style="display:none;">
+  <div class="modal" style="max-width:420px;">
+    <button class="modal-close" id="nc-lead-close" aria-label="Close">✕</button>
+    <div class="modal-header">
+      <div class="lead-popup-eyebrow">⬡ Founding Member Program</div>
+      <h2>Get notified before spots are gone.</h2>
+      <div class="lead-popup-slots" id="nc-lead-slots"></div>
+    </div>
+    <p class="lead-popup-body">Leave your email and we'll reach out before the last founding spots fill — locked at $39/month, permanently.</p>
+    <form class="lead-popup-form" id="nc-lead-form">
+      <input class="lead-popup-input" id="nc-lead-email" type="email" placeholder="you@yourrestaurant.com" required />
+      <button type="submit" class="btn-primary" id="nc-lead-submit">Notify Me</button>
+    </form>
+    <div class="lead-popup-msg" id="nc-lead-msg"></div>
+    <p class="lead-popup-note">One email. No spam — just a heads-up when founding pricing is about to close.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var SOURCE = 'pricing';
+  var SEEN_KEY = 'nc_lead_popup_seen';
+  if (localStorage.getItem(SEEN_KEY)) return;
+
+  var overlay = document.getElementById('nc-lead-overlay');
+  var closeBtn = document.getElementById('nc-lead-close');
+  var form = document.getElementById('nc-lead-form');
+  var emailInput = document.getElementById('nc-lead-email');
+  var submitBtn = document.getElementById('nc-lead-submit');
+  var msgEl = document.getElementById('nc-lead-msg');
+  var slotsEl = document.getElementById('nc-lead-slots');
+  var shown = false;
+
+  function markSeen(){ try { localStorage.setItem(SEEN_KEY, '1'); } catch(e){} }
+
+  function show(){
+    if (shown) return;
+    shown = true;
+    overlay.style.display = 'flex';
+    fetch('https://app.nexuscmd.io/api/founding-slots').then(function(r){return r.json();}).then(function(d){
+      if (d && d.slots_full) {
+        overlay.style.display = 'none';
+        shown = false;
+      } else if (d && typeof d.slots_remaining === 'number') {
+        slotsEl.textContent = d.slots_remaining + ' of 20 founding spots remain';
+      }
+    }).catch(function(){});
+  }
+
+  function hide(){
+    overlay.style.display = 'none';
+    markSeen();
+  }
+
+  closeBtn.addEventListener('click', hide);
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) hide(); });
+
+  document.addEventListener('mouseleave', function(e){
+    if (e.clientY <= 10) show();
+  });
+
+  setTimeout(show, 30000);
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = emailInput.value.trim();
+    if (!email) return;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    msgEl.textContent = '';
+    msgEl.className = 'lead-popup-msg';
+    fetch('https://app.nexuscmd.io/api/marketing/capture-lead', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ email: email, source: SOURCE })
+    }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok, data:d}; }); })
+      .then(function(res){
+        if (res.ok) {
+          msgEl.textContent = "You're on the list. We'll be in touch.";
+          msgEl.className = 'lead-popup-msg success';
+          markSeen();
+          setTimeout(hide, 2200);
+        } else {
+          msgEl.textContent = (res.data && res.data.error) || 'Something went wrong. Please try again.';
+          msgEl.className = 'lead-popup-msg error';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Notify Me';
+        }
+      }).catch(function(){
+        msgEl.textContent = 'Connection error. Please try again.';
+        msgEl.className = 'lead-popup-msg error';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Notify Me';
+      });
+  });
+})();
+</script>
 </body>
 </html>

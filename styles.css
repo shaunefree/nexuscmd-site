@@ -1228,3 +1228,56 @@ strong { color: var(--gold-light); }
   .section-title { font-size: 1.6em; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── Lead Capture Popup (reuses .modal-overlay / .modal / .modal-close / .modal-header) ── */
+.lead-popup-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62em;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.lead-popup-slots {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6em;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  margin-top: 0.4em;
+}
+
+.lead-popup-body {
+  font-size: 0.85em;
+  color: var(--text-dim);
+  margin: 1em 0 1.4em;
+  line-height: 1.7;
+}
+
+.lead-popup-form { display: flex; gap: 0.6em; flex-wrap: wrap; }
+
+.lead-popup-input {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 0.75em 1em;
+  background: var(--bg-dark);
+  border: 1px solid var(--border-2);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.9em;
+}
+
+.lead-popup-input:focus { outline: none; border-color: var(--gold-border); }
+
+.lead-popup-note {
+  font-size: 0.72em;
+  color: var(--text-muted);
+  margin-top: 0.9em;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.lead-popup-msg { font-size: 0.82em; margin-top: 0.8em; }
+.lead-popup-msg.success { color: #27AE60; }
+.lead-popup-msg.error { color: var(--red); }
