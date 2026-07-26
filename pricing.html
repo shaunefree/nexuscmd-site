@@ -237,38 +237,11 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(13,13,13,0.95); b
           <p class="plan-note"></p>
         </div>
 
-        <!-- COMMAND UNIT - Launching July 13, 2026 -->
+        <!-- COMMAND UNIT -->
         <div class="plan-card">
           <div class="plan-header">
             <div class="plan-tag">Command Unit</div>
             <div class="plan-desc">For leadership teams up to 5</div>
-
-            <!-- Countdown Banner -->
-            <div style="background:linear-gradient(135deg,rgba(201,162,71,0.12),rgba(201,162,71,0.05));border:1px solid rgba(201,162,71,0.3);border-radius:6px;padding:1em;margin-bottom:1em;text-align:center;">
-              <div style="color:var(--gold);font-family:'Cinzel',serif;font-size:0.6em;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6em;">LAUNCHING JULY 13, 2026</div>
-              <div id="unit-countdown" style="display:flex;justify-content:center;gap:1em;">
-                <div style="text-align:center;">
-                  <div id="unit-days" style="font-family:'Cormorant Garamond',serif;font-size:1.8em;font-weight:700;color:var(--text);line-height:1;">--</div>
-                  <div style="color:var(--dim2);font-family:'Cinzel',serif;font-size:0.5em;letter-spacing:0.1em;">DAYS</div>
-                </div>
-                <div style="color:var(--dim2);font-size:1.5em;align-self:center;">·</div>
-                <div style="text-align:center;">
-                  <div id="unit-hours" style="font-family:'Cormorant Garamond',serif;font-size:1.8em;font-weight:700;color:var(--text);line-height:1;">--</div>
-                  <div style="color:var(--dim2);font-family:'Cinzel',serif;font-size:0.5em;letter-spacing:0.1em;">HRS</div>
-                </div>
-                <div style="color:var(--dim2);font-size:1.5em;align-self:center;">·</div>
-                <div style="text-align:center;">
-                  <div id="unit-minutes" style="font-family:'Cormorant Garamond',serif;font-size:1.8em;font-weight:700;color:var(--text);line-height:1;">--</div>
-                  <div style="color:var(--dim2);font-family:'Cinzel',serif;font-size:0.5em;letter-spacing:0.1em;">MIN</div>
-                </div>
-                <div style="color:var(--dim2);font-size:1.5em;align-self:center;">·</div>
-                <div style="text-align:center;">
-                  <div id="unit-seconds" style="font-family:'Cormorant Garamond',serif;font-size:1.8em;font-weight:700;color:var(--text);line-height:1;">--</div>
-                  <div style="color:var(--dim2);font-family:'Cinzel',serif;font-size:0.5em;letter-spacing:0.1em;">SEC</div>
-                </div>
-              </div>
-            </div>
-            <p class="countdown-note">Command Unit launches July 13, 2026.</p>
 
             <div class="plan-price">
               <span class="price-amount" id="price-unit">$229</span>
@@ -282,8 +255,10 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(13,13,13,0.95); b
             <div class="feature"><span class="check">◆</span><span>Invite links for 4 additional users</span></div>
             <div class="feature"><span class="check">◆</span><span>All 5 Helios intelligence layers</span></div>
             <div class="feature"><span class="check">◆</span><span>FORCE Engine™ included</span></div>
+            <div class="feature"><span class="check">◆</span><span>14-day free trial</span></div>
           </div>
-          <button class="plan-cta plan-cta-secondary" disabled style="opacity:0.5;cursor:not-allowed;">Notify Me at Launch</button>
+          <a href="#checkout" class="btn-plan" onclick="startCheckout('unit')">Start Free — 14 Days</a>
+          <p class="plan-note"></p>
         </div>
         </div>
 
@@ -555,28 +530,6 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(13,13,13,0.95); b
       if (e.target === this) closeCheckout();
     });
   
-
-  // ── Countdown to Command Unit launch: July 13, 2026 ──────────────────────
-  function updateUnitCountdown() {
-    const launch = new Date('2026-07-13T00:00:00');
-    const now = new Date();
-    const diff = launch - now;
-    if (diff <= 0) {
-      document.getElementById('unit-countdown').innerHTML = '<div style="color:#C9A247;font-size:0.9em;letter-spacing:0.1em;">AVAILABLE NOW — SUBSCRIBE ABOVE</div>';
-      return;
-    }
-    const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    const el = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = String(val).padStart(2,'0'); };
-    el('unit-days', days);
-    el('unit-hours', hours);
-    el('unit-minutes', minutes);
-    el('unit-seconds', seconds);
-  }
-  updateUnitCountdown();
-  setInterval(updateUnitCountdown, 1000);
 
   // ── Founding Members slot check ───────────────────────────────────────────
   async function checkFoundingSlots() {
