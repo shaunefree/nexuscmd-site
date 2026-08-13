@@ -1,15 +1,15 @@
-# Nexus Command
+# Nexus Command™
 > AI-powered leadership intelligence platform built exclusively for restaurant operations professionals.
 
-Nexus Command is not a general-purpose AI tool. It is a purpose-built system designed to help restaurant managers, shift leaders, assistant managers, area directors, and franchise owners think more clearly, lead more consistently, and make better decisions under pressure.
+Nexus Command™ is not a general-purpose AI tool. It is a purpose-built system designed to help restaurant managers, shift leaders, assistant managers, area directors, and franchise owners think more clearly, lead more consistently, and make better decisions under pressure.
 
 The platform runs the Helios Leadership Suite™ v5.0 — five specialized intelligence layers that activate automatically based on what a manager describes. No prompts. No mode selection. Just describe the situation and Helios routes itself.
 
 Built by Shaun Hudley — 28 years in restaurant operations across Little Caesars, KFC, Pizza Hut, Krystal, Maryland Fried Chicken, and Nibble Nation. ServSafe certified instructor and proctor. Operated under Hudley Entertainment, Albany, Georgia.
 
-## What Nexus Command Does
+## What Nexus Command™ Does
 
-Nexus Command helps restaurant operations professionals with:
+Nexus Command™ helps restaurant operations professionals with:
 - Crew conflict resolution and authority recovery
 - Employee accountability and hard conversation scripting
 - Leadership identity and self-awareness development
@@ -31,9 +31,9 @@ Nexus Command helps restaurant operations professionals with:
 
 All five modules are powered by **Helios Core LSCP** (Location Systems and Compliance Protocol) — the underlying intelligence engine that handles equipment risk, maintenance documentation, compliance exposure, and inspection readiness across every session.
 
-## The FORCE Engine
+## The FORCE Engine™
 
-The FORCE Engine is a 10-section decision integrity protocol that activates automatically when a major career decision, financial investment, irreversible commitment, or strategic direction change is detected.
+The FORCE Engine™ is a 10-section decision integrity protocol that activates automatically when a major career decision, financial investment, irreversible commitment, or strategic direction change is detected.
 
 The 10 sections in order: Outside View Summary, Critic Role Declared, Core Weaknesses, Assumption Breakdown, Risk Score, Failure Scenario, Hidden Costs, Better Alternative, Final Verdict, Confidence Rating.
 
@@ -75,4 +75,4 @@ Active trademarks: Nexus Command™, Helios Leadership Suite™, FORCE Engine™
 
 ## Privacy
 
-Conversations with Helios are processed through Anthropic's API on Nexus Command's servers and stored in an encrypted database. User leadership profiles are never sold, never shared with third parties for marketing, and never used to train AI models. Payments are processed by Stripe.
+Conversations with Helios are processed through Anthropic's API on Nexus Command™'s servers and stored in an encrypted database. User leadership profiles are never sold, never shared with third parties for marketing, and never used to train AI models. Payments are processed by Stripe.
