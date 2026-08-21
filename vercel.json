@@ -1,4 +1,14 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/nibblenation",
+      "destination": "/api/nn?p="
+    },
+    {
+      "source": "/nibblenation/:path*",
+      "destination": "/api/nn?p=:path*"
+    }
+  ]
 }
