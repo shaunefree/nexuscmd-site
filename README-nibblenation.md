@@ -24,10 +24,13 @@ Vercel → `nexuscmd-site` → Settings → Environment Variables:
 
     NIBBLE_PASSWORD = <the team password>
     NN_STORAGE_KEY  = <Supabase service key for the nn-training bucket>
+    RESEND_API_KEY  = <managed Resend API key>
 
 Apply to Production (and Preview if you want it there). Redeploy after adding them.
 Without `NIBBLE_PASSWORD` the route returns a 500 that says so — it never opens.
 Without `NN_STORAGE_KEY` the pages load but every video returns a 502.
+Without `RESEND_API_KEY`, offboarding submissions fail safely without showing a
+false confirmation.
 
 ## Routes
 
@@ -35,12 +38,29 @@ Without `NN_STORAGE_KEY` the pages load but every video returns a 502.
 |---|---|
 | `/nibblenation` | Hub: simulator + manager training running order |
 | `/nibblenation/interview` | The interview simulator |
+| `/nibblenation/offboarding` | Protected Employee Separation / Offboarding Form |
+| `/nibblenation/offboarding/submit` | Protected server-side offboarding submission |
 | `/nibblenation/login` | Password form (POST target) |
 | `/nibblenation/logout` | Clears the session |
 
 ## Editing the pages
 
 The HTML in `api/_nn/assets.js` is generated. Regenerate it rather than hand-editing.
+
+## Employee offboarding
+
+The offboarding form is served from the protected `api/_nn/offboarding.js` module;
+it is not placed in the public static tree. It creates a print-friendly management
+record and sends the server-generated record from `nibblenation@nexuscmd.io` to
+`shaun@nibblenation.com` and `t.harvey@nibblenation.com`, with a confirmation copy
+to the submitting manager. The sender and recipients are fixed server-side.
+
+The Store Manager's rehire value is a recommendation (`SM-R`), not Area Supervisor
+approval. The form must not contain Social Security numbers, credentials, payment
+card data, or unnecessary medical details. Its structured output supports follow-up
+in Gusto, Altametrics, and Little Caesars Gateway; those systems are not changed by
+this form. V1 uses email and the immediate print view rather than a new database or
+public file storage.
 
 ## Still to do
 

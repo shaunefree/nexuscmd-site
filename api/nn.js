@@ -9,6 +9,7 @@
 const crypto = require('crypto');
 const ASSETS = require('./_nn/assets.js');
 const FILES = require('./_nn/files.js');   // the 33 permitted video names
+const OFFBOARDING = require('./_nn/offboarding.js');
 
 const STORAGE = 'https://tgxjsdlfvstdmfpkjurg.supabase.co/storage/v1';
 const BUCKET = 'nn-training';
@@ -18,6 +19,9 @@ const LINK_TTL = 2 * 60 * 60;              // signed video links live 2 hours
 const COOKIE = 'nn_session';
 const TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
 const PATH = '/nibblenation';
+const OFFBOARDING_CARD = '<div class="feature offboarding-card"><h2>Employee Offboarding</h2>' +
+  '<p>Document a resignation or termination and submit the management separation record.</p>' +
+  '<a class="btn" href="/nibblenation/offboarding">Open offboarding form</a></div>';
 
 function sha(s) { return crypto.createHash('sha256').update(String(s), 'utf8').digest(); }
 function equal(a, b) { return crypto.timingSafeEqual(sha(a), sha(b)); }
@@ -82,6 +86,12 @@ function setCookie(token) {
 }
 const CLEAR = COOKIE + '=; Path=' + PATH + '; HttpOnly; Secure; SameSite=Lax; Max-Age=0';
 
+function hubWithOffboarding() {
+  const marker = '<div class="sec">';
+  if (ASSETS.hub.indexOf(marker) < 0) return ASSETS.hub;
+  return ASSETS.hub.replace(marker, OFFBOARDING_CARD + '\n\n  ' + marker);
+}
+
 module.exports = async function handler(req, res) {
   const key = process.env.NIBBLE_PASSWORD;
   if (!key) {
@@ -120,7 +130,12 @@ module.exports = async function handler(req, res) {
 
   if (!signedIn) return send(res, 401, ASSETS.login);
 
-  if (p === '') return send(res, 200, ASSETS.hub);
+  if (p === '') return send(res, 200, hubWithOffboarding());
+  if (p === 'offboarding') {
+    if (req.method !== 'GET') return send(res, 405, 'Method not allowed.');
+    return send(res, 200, OFFBOARDING.FORM);
+  }
+  if (p === 'offboarding/submit') return OFFBOARDING.submit(req, res);
   if (p === 'interview') return send(res, 200, ASSETS.interview);
 
   /* Video. The page never contains a storage URL. Each play mints a short-lived
