@@ -76,6 +76,8 @@ test('form is protected-content shaped and excludes prohibited fields and secret
   assert.match(offboarding.FORM, /STORE MANAGER RECOMMENDATION ONLY/);
   assert.match(offboarding.FORM, /Georgia DOL-800/);
   assert.match(offboarding.FORM, /Florida processing/);
+  const script = offboarding.FORM.match(/<script>([\s\S]*)<\/script>/)[1];
+  assert.doesNotThrow(() => new Function(script));
 });
 
 test('server validation enforces locked stores, controlled codes, OTH review, and policy-derived rehire', () => {
