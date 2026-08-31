@@ -11,6 +11,7 @@ const ASSETS = require('./_nn/assets.js');
 const FILES = require('./_nn/files.js');   // the 33 permitted video names
 const OFFBOARDING = require('./_nn/offboarding.js');
 const INVENTORY = require('./_nn/inventory.js');
+const LINKS = require('./_nn/links.js');
 
 const STORAGE = 'https://tgxjsdlfvstdmfpkjurg.supabase.co/storage/v1';
 const BUCKET = 'nn-training';
@@ -93,7 +94,7 @@ const CLEAR = COOKIE + '=; Path=' + PATH + '; HttpOnly; Secure; SameSite=Lax; Ma
 function hubWithOffboarding() {
   const marker = '<div class="sec">';
   if (ASSETS.hub.indexOf(marker) < 0) return ASSETS.hub;
-  return ASSETS.hub.replace(marker, INVENTORY_CARD + '\n\n  ' + OFFBOARDING_CARD + '\n\n  ' + marker);
+  return ASSETS.hub.replace(marker, LINKS.CARD + '\n\n  ' + INVENTORY_CARD + '\n\n  ' + OFFBOARDING_CARD + '\n\n  ' + marker);
 }
 
 module.exports = async function handler(req, res) {
