@@ -38,6 +38,7 @@ false confirmation.
 |---|---|
 | `/nibblenation` | Hub: simulator + manager training running order |
 | `/nibblenation/interview` | The interview simulator |
+| `/nibblenation/inventory` | Inventory Conversion Calculator (counts/weights → Altametrics decimals) |
 | `/nibblenation/offboarding` | Protected Employee Separation / Offboarding Form |
 | `/nibblenation/offboarding/submit` | Protected server-side offboarding submission |
 | `/nibblenation/login` | Password form (POST target) |
@@ -62,10 +63,24 @@ in Gusto, Altametrics, and Little Caesars Gateway; those systems are not changed
 this form. V1 uses email and the immediate print view rather than a new database or
 public file storage.
 
+## Inventory calculator
+
+Served from the generated `api/_nn/inventory.js` (single self-contained page,
+inline CSS/JS/catalog). Source of truth for the calculator lives at
+`~/Downloads/NN_Documents_and_Tools/3 Inventory Calculator/inventory-calculator/`
+— edit `inventory-data.js` there, run its tests, and regenerate rather than
+hand-editing the module. Owner-confirmed package bases applied 2026-08-31
+(Mtn Dew 12/case, thin crust 20/bag, sauces counted by container). Five fields
+still show `CONVERSION BASIS REQUIRED` — see that folder's README.
+
 ## Still to do
 
 - The videos carry a `Disciplinary Field Guide v3.3 — Draft, not for issue` footer on
-  every frame. Remove and re-render once the guide is issued.
+  every frame. Remove and re-render once the guide is issued. (Note: Field Guide
+  v3.4 exists in `~/Desktop/NNLA/NN_Policy_Docs/` as of Aug 26 — check with Shaun
+  whether it is issued, which would unblock the re-render.)
+- Pepper Rings jar weight unknown (owner); mozzarella 4/4# CASE/BAG and chicken
+  wings ORDER(8) conversions derivable from their labels, pending owner sign-off.
 
 ## Running order
 

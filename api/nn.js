@@ -10,6 +10,7 @@ const crypto = require('crypto');
 const ASSETS = require('./_nn/assets.js');
 const FILES = require('./_nn/files.js');   // the 33 permitted video names
 const OFFBOARDING = require('./_nn/offboarding.js');
+const INVENTORY = require('./_nn/inventory.js');
 
 const STORAGE = 'https://tgxjsdlfvstdmfpkjurg.supabase.co/storage/v1';
 const BUCKET = 'nn-training';
@@ -22,6 +23,9 @@ const PATH = '/nibblenation';
 const OFFBOARDING_CARD = '<div class="feature offboarding-card"><h2>Employee Offboarding</h2>' +
   '<p>Document a resignation or termination and submit the management separation record.</p>' +
   '<a class="btn" href="/nibblenation/offboarding">Open offboarding form</a></div>';
+const INVENTORY_CARD = '<div class="feature inventory-card"><h2>Inventory Calculator</h2>' +
+  '<p>Convert what you count or weigh into the exact decimals to enter in Altametrics. Works on any phone.</p>' +
+  '<a class="btn" href="/nibblenation/inventory">Open inventory calculator</a></div>';
 
 function sha(s) { return crypto.createHash('sha256').update(String(s), 'utf8').digest(); }
 function equal(a, b) { return crypto.timingSafeEqual(sha(a), sha(b)); }
@@ -89,7 +93,7 @@ const CLEAR = COOKIE + '=; Path=' + PATH + '; HttpOnly; Secure; SameSite=Lax; Ma
 function hubWithOffboarding() {
   const marker = '<div class="sec">';
   if (ASSETS.hub.indexOf(marker) < 0) return ASSETS.hub;
-  return ASSETS.hub.replace(marker, OFFBOARDING_CARD + '\n\n  ' + marker);
+  return ASSETS.hub.replace(marker, INVENTORY_CARD + '\n\n  ' + OFFBOARDING_CARD + '\n\n  ' + marker);
 }
 
 module.exports = async function handler(req, res) {
@@ -137,6 +141,7 @@ module.exports = async function handler(req, res) {
   }
   if (p === 'offboarding/submit') return OFFBOARDING.submit(req, res);
   if (p === 'interview') return send(res, 200, ASSETS.interview);
+  if (p === 'inventory') return send(res, 200, INVENTORY.PAGE);
 
   /* Video. The page never contains a storage URL. Each play mints a short-lived
      signed link, so a forwarded link stops working within the hour. Only the 33
