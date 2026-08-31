@@ -75,14 +75,11 @@ still show `CONVERSION BASIS REQUIRED` — see that folder's README.
 
 ## Still to do
 
-- The videos carry a `Disciplinary Field Guide v3.3 — Draft, not for issue` footer on
-  every frame. **UNBLOCKED 2026-08-31: Shaun confirmed Field Guide v3.4
-  (`~/Desktop/NNLA/NN_Policy_Docs/`) is officially issued.** Re-render the 33
-  modules without the draft footer, re-upload to the `nn-training` bucket
-  (`NNYT/` folder, same filenames), and re-verify the running order against
-  `NNLA/NNYT/RUNNING_ORDER.md` afterward.
-- Pepper Rings jar weight unknown (owner); mozzarella 4/4# CASE/BAG and chicken
-  wings ORDER(8) conversions derivable from their labels, pending owner sign-off.
+- ~~Video re-render~~ **DONE (owner-confirmed live 2026-08-31):** modules re-rendered
+  against Field Guide v3.4, master file live. See `NNLA/NNYT/RUNNING_ORDER.md`.
+- Calculator: mozzarella 4/4# CASE/BAG and chicken wings ORDER(8) conversions are
+  derivable from their labels, pending owner sign-off; owner plans to weigh the
+  by-container sauce items later for real oz bases.
 
 ## Running order
 
