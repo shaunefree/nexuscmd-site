@@ -12,6 +12,7 @@ const FILES = require('./_nn/files.js');   // the 33 permitted video names
 const OFFBOARDING = require('./_nn/offboarding.js');
 const INVENTORY = require('./_nn/inventory.js');
 const LINKS = require('./_nn/links.js');
+const SIMULATOR = require('./_nn/simulator.js');
 
 const STORAGE = 'https://tgxjsdlfvstdmfpkjurg.supabase.co/storage/v1';
 const BUCKET = 'nn-training';
@@ -27,6 +28,10 @@ const OFFBOARDING_CARD = '<div class="feature offboarding-card"><h2>Employee Off
 const INVENTORY_CARD = '<div class="feature inventory-card"><h2>Inventory Calculator</h2>' +
   '<p>Convert what you count or weigh into the exact decimals to enter in Altametrics. Works on any phone.</p>' +
   '<a class="btn" href="/nibblenation/inventory">Open inventory calculator</a></div>';
+const CERTIFICATION_CARD = '<div class="feature certification-card"><h2>Manager Certification Simulator</h2>' +
+  '<p>Run a full simulated shift — open, lunch, handoff, dinner, close — and earn your certification. Scored on the seven Role Bible categories.</p>' +
+  '<a class="btn" href="/nibblenation/certification">Shift Manager — open simulator</a>' +
+  '<p class="small" style="margin:10px 0 0;opacity:.75">Assistant General Manager — <b>coming soon</b> &middot; Store Manager — <b>coming soon</b></p></div>';
 
 function sha(s) { return crypto.createHash('sha256').update(String(s), 'utf8').digest(); }
 function equal(a, b) { return crypto.timingSafeEqual(sha(a), sha(b)); }
@@ -94,7 +99,7 @@ const CLEAR = COOKIE + '=; Path=' + PATH + '; HttpOnly; Secure; SameSite=Lax; Ma
 function hubWithOffboarding() {
   const marker = '<div class="sec">';
   if (ASSETS.hub.indexOf(marker) < 0) return ASSETS.hub;
-  return ASSETS.hub.replace(marker, LINKS.CARD + '\n\n  ' + INVENTORY_CARD + '\n\n  ' + OFFBOARDING_CARD + '\n\n  ' + marker);
+  return ASSETS.hub.replace(marker, LINKS.CARD + '\n\n  ' + CERTIFICATION_CARD + '\n\n  ' + INVENTORY_CARD + '\n\n  ' + OFFBOARDING_CARD + '\n\n  ' + marker);
 }
 
 module.exports = async function handler(req, res) {
@@ -143,6 +148,7 @@ module.exports = async function handler(req, res) {
   if (p === 'offboarding/submit') return OFFBOARDING.submit(req, res);
   if (p === 'interview') return send(res, 200, ASSETS.interview);
   if (p === 'inventory') return send(res, 200, INVENTORY.PAGE);
+  if (p === 'certification') return send(res, 200, SIMULATOR.PAGE);
 
   /* Video. The page never contains a storage URL. Each play mints a short-lived
      signed link, so a forwarded link stops working within the hour. Only the 33

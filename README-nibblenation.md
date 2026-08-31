@@ -39,6 +39,7 @@ false confirmation.
 | `/nibblenation` | Hub: simulator + manager training running order |
 | `/nibblenation/interview` | The interview simulator |
 | `/nibblenation/inventory` | Inventory Conversion Calculator (counts/weights → Altametrics decimals) |
+| `/nibblenation/certification` | NNLC Shift Manager Certification Simulator (full-shift, offline scoring; AGM/Store Manager locked until built) |
 | `/nibblenation/offboarding` | Protected Employee Separation / Offboarding Form |
 | `/nibblenation/offboarding/submit` | Protected server-side offboarding submission |
 | `/nibblenation/login` | Password form (POST target) |
