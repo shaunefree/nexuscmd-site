@@ -26,6 +26,9 @@ const PATH = '/nibblenation';
 const OFFBOARDING_CARD = '<div class="feature offboarding-card"><h2>Employee Offboarding</h2>' +
   '<p>Document a resignation or termination and submit the management separation record.</p>' +
   '<a class="btn" href="/nibblenation/offboarding">Open offboarding form</a></div>';
+const START_CARD = '<div class="feature start-here-card"><h2>Start Here — New to the Hub?</h2>' +
+  '<p>A six-minute guided tour of everything on this page — every tool, every training series, and how to use them. Watch it once and you know the whole hub.</p>' +
+  '<a class="btn" href="/nibblenation/v/Nibble_Nation_Hub_Tutorial" target="_blank" rel="noopener">Watch the hub tutorial (6 min)</a></div>';
 const INVENTORY_CARD = '<div class="feature inventory-card"><h2>Inventory Calculator</h2>' +
   '<p>Convert what you count or weigh into the exact decimals to enter in Altametrics. Works on any phone.</p>' +
   '<a class="btn" href="/nibblenation/inventory">Open inventory calculator</a></div>';
@@ -96,7 +99,7 @@ const CLEAR = COOKIE + '=; Path=' + PATH + '; HttpOnly; Secure; SameSite=Lax; Ma
 function hubWithOffboarding() {
   const marker = '<div class="sec">';
   if (ASSETS.hub.indexOf(marker) < 0) return ASSETS.hub;
-  return ASSETS.hub.replace(marker, LINKS.CARD + '\n\n  ' + INVENTORY_CARD + '\n\n  ' + OFFBOARDING_CARD + '\n\n  ' + marker);
+  return ASSETS.hub.replace(marker, START_CARD + '\n\n  ' + LINKS.CARD + '\n\n  ' + INVENTORY_CARD + '\n\n  ' + OFFBOARDING_CARD + '\n\n  ' + marker);
 }
 
 module.exports = async function handler(req, res) {
@@ -167,10 +170,12 @@ module.exports = async function handler(req, res) {
      known filenames are accepted, so this cannot be pointed at anything else. */
   if (p.slice(0, 2) === 'v/') {
     const name = p.slice(2);
+    const GUIDE_FILES = ['Nibble_Nation_Hub_Tutorial'];
     const inSeries01 = FILES.indexOf(name) >= 0;
     const inArt = ART.ART_FILES.indexOf(name) >= 0;
-    if (!inSeries01 && !inArt) return send(res, 404, 'Unknown module.');
-    const prefix = inSeries01 ? PREFIX : 'ART/';
+    const inGuide = GUIDE_FILES.indexOf(name) >= 0;
+    if (!inSeries01 && !inArt && !inGuide) return send(res, 404, 'Unknown module.');
+    const prefix = inSeries01 ? PREFIX : inArt ? 'ART/' : 'GUIDE/';
     const key = process.env.NN_STORAGE_KEY;
     if (!key) return send(res, 503, 'Video storage is not configured yet.');
     try {

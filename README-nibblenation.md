@@ -20,6 +20,9 @@ in CLAUDE.md, because a password that lives in the browser is not a password.
   All three assessments email results to shaun@nibblenation.com and
   t.harvey@nibblenation.com on submit (from nibblenation@nexuscmd.io via
   Resend, best-effort — the printable result page is the record either way).
+  The hub tutorial video lives under `GUIDE/` (whitelist inline in `api/nn.js`;
+  produced 2026-09-02 from the approved narration script + local hub capture —
+  regenerate via the scratch pipeline in the session records if screens change).
   Series 03 A.R.T. role videos live in the same bucket under `ART/` and are
   whitelisted in `api/_nn/art.js` (`ART_FILES`). Project + bucket file-size
   limits were raised to 150MB on 2026-09-02 for the 64MB Shift Leader video.
@@ -42,7 +45,7 @@ false confirmation.
 
 | URL | What |
 |---|---|
-| `/nibblenation` | Hub: simulator + manager training running order |
+| `/nibblenation` | Hub: Start Here tutorial, Company Systems links, tools, and the Training Library |
 | `/nibblenation/interview` | The interview simulator |
 | `/nibblenation/inventory` | Inventory Conversion Calculator (counts/weights → Altametrics decimals) |
 | `/nibblenation/certification` | NNLC Shift Manager Certification Simulator (full-shift, offline scoring; AGM/Store Manager locked until built) |
