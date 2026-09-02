@@ -45,6 +45,8 @@ false confirmation.
 | `/nibblenation/certification` | NNLC Shift Manager Certification Simulator (full-shift, offline scoring; AGM/Store Manager locked until built) |
 | `/nibblenation/art-test` | Series 03 A.R.T. Shift Leader assessment (13 questions; graded server-side in `api/_nn/art.js` — the answer key never reaches the browser; pass mark 11/13; printable result) |
 | `/nibblenation/art-test/submit` | Server-side grading endpoint |
+| `/nibblenation/art-test-agm` | Series 03 AGM assessment (9 auto-graded, pass 8/9, + written scenario for manager review; key server-side only) |
+| `/nibblenation/art-test-agm/submit` | Server-side AGM grading endpoint |
 | `/nibblenation/offboarding` | Protected Employee Separation / Offboarding Form |
 | `/nibblenation/offboarding/submit` | Protected server-side offboarding submission |
 | `/nibblenation/login` | Password form (POST target) |

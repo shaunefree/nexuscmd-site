@@ -6,7 +6,7 @@
  * review — never the correct answers.
  */
 
-const ART_FILES = ['Shift_Leader_ART_Roles_and_Responsibilities'];
+const ART_FILES = ['Shift_Leader_ART_Roles_and_Responsibilities', 'AGM_ART_Roles_and_Responsibilities'];
 
 const PASS_MARK = 11; // of 13 (~85%)
 
@@ -179,4 +179,115 @@ async function submit(req, res) {
   return res.end(html);
 }
 
-module.exports = { ART_FILES, FORM, submit };
+
+/* ---------------- AGM assessment ---------------- */
+
+const AGM_PASS_MARK = 8; // of 9 auto-graded (~89%); Q10 is manager-reviewed
+
+const AGM_QUESTIONS = [
+  { n: 1, t: 'What are the three core principles that guide the Assistant General Manager (AGM) role?', o: { A: 'Efficiency, Speed, and Compliance', B: 'Accountability, Responsibility, and Teamwork', C: 'Profitability, Customer Service, and Strategy', D: 'Innovation, Quality, and Delegation' } },
+  { n: 2, t: "How is an AGM's success fundamentally measured?", o: { A: 'By the total number of hours they personally work each week', B: 'By whether shift leaders and crew can produce results through direction and coaching without a constant rescue', C: "By doing all the busy work to ensure the store manager doesn't have to step in", D: 'By how quickly they personally complete station tasks during high-pressure shifts' } },
+  { n: 3, t: 'Which of the following is considered part of the “complete leadership cycle” for Accountability?', o: { A: 'Ignore, Repair, Report, Forget', B: 'Define, Inspect, Coach, Follow Through, and Report', C: 'Assign, Assume, Complete, Appraise', D: 'Tell, Delegate, Document, Escalate' } },
+  { n: 4, t: "What are the five stages of an AGM's consistent operating rhythm?", o: { A: 'Plan, Organize, Lead, Control, Review', B: 'Hire, Train, Schedule, Supervise, Evaluate', C: 'Prepare, Direct, Verify, Adjust, and Close the Loop', D: 'Observe, Analyze, Correct, Document, Escalate' } },
+  { n: 5, t: 'On the 1–4 performance rating scale for an AGM, what does a score of “3” represent?', o: { A: 'Not demonstrated', B: 'Inconsistent', C: 'Independently meets the standard', D: 'Sustains and teaches others' } },
+  { n: 6, tf: true, t: 'True accountability is completely achieved simply by stating, “I told them.”' },
+  { n: 7, tf: true, t: 'When an AGM repeatedly steps in to rescue shift leaders, it successfully improves the long-term leadership capability of the team.' },
+  { n: 8, tf: true, t: 'Simply reporting that labor or food costs are high does not qualify as business analysis.' },
+  { n: 9, tf: true, t: 'Completing a four-week training period automatically guarantees a candidate a promotion to AGM.' },
+  { n: 10, written: true, t: 'Which types of issues are AGMs expected to resolve on their own, and which types must be escalated? Give two examples of each.' }
+];
+
+/* Server-only AGM answer key. Q10 is manager-reviewed; its model answer is
+   deliberately not stored here so no code path can ever render it. */
+const AGM_KEY = { 1: 'B', 2: 'B', 3: 'B', 4: 'C', 5: 'C', 6: 'FALSE', 7: 'FALSE', 8: 'TRUE', 9: 'FALSE' };
+
+function agmQuestionMarkup(q) {
+  if (q.written) {
+    return `<div class="q"><h2>${q.n}. ${esc(q.t)}</h2>
+      <p class="small">Write your answer below. This question is reviewed by your manager, not auto-graded.</p>
+      <textarea name="q${q.n}" required rows="6" maxlength="2000" style="width:100%;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px"></textarea></div>`;
+  }
+  if (q.tf) {
+    return `<div class="q"><h2>${q.n}. True or False: ${esc(q.t)}</h2>
+      <label class="opt"><input type="radio" name="q${q.n}" value="TRUE" required><span><b>True</b></span></label>
+      <label class="opt"><input type="radio" name="q${q.n}" value="FALSE" required><span><b>False</b></span></label></div>`;
+  }
+  return questionMarkup(q);
+}
+
+const AGM_FORM = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>A.R.T. Roles &amp; Responsibilities — AGM Assessment</title>
+<style>${STYLE}</style></head><body>
+<div class="wrap">
+  <p class="eyebrow">Series 03 · A.R.T. Roles &amp; Responsibilities</p>
+  <h1>AGM Assessment</h1>
+  <p class="small">10 questions covering the AGM A.R.T. video — 9 auto-graded (pass mark: ${AGM_PASS_MARK} of 9)
+  plus one written scenario your manager reviews. Watch the video first, then answer without notes.
+  Your result page is printable for the store record.</p>
+  <form method="POST" action="/nibblenation/art-test-agm/submit">
+    <div class="q">
+      <div class="field"><label>Your name<br><input name="name" required maxlength="80"></label></div>
+      <div class="field"><label>Store<br><input name="store" required maxlength="40" placeholder="e.g. Store 3"></label></div>
+    </div>
+    ${AGM_QUESTIONS.map(agmQuestionMarkup).join('')}
+    <button class="btn" type="submit">Submit answers</button>
+    <a class="btn secondary" href="/nibblenation">Back to team resources</a>
+  </form>
+</div></body></html>`;
+
+async function agmSubmit(req, res) {
+  if (req.method !== 'POST') {
+    res.statusCode = 405;
+    return res.end('Method not allowed.');
+  }
+  const body = await readBody(req);
+  let score = 0;
+  const review = [];
+  for (const q of AGM_QUESTIONS) {
+    if (q.written) continue;
+    if (String(body[`q${q.n}`] || '').toUpperCase() === AGM_KEY[q.n]) score += 1;
+    else review.push(q.n);
+  }
+  const passed = score >= AGM_PASS_MARK;
+  const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const written = String(body.q10 || '').slice(0, 2000);
+  const html = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AGM A.R.T. Assessment Result</title>
+<style>${STYLE}</style></head><body>
+<div class="wrap">
+  <p class="eyebrow">Series 03 · A.R.T. Roles &amp; Responsibilities</p>
+  <h1>AGM Assessment Result</h1>
+  <div class="q">
+    <p><b>${esc(body.name || 'Unknown')}</b> · ${esc(body.store || '—')} · ${esc(date)}</p>
+    <p style="font-size:1.6rem;margin:6px 0"><b>${score} / 9</b> <span class="small">auto-graded</span></p>
+    <div class="banner ${passed ? 'pass' : 'retry'}">${passed
+      ? 'PASS (auto-graded portion) — pending manager review of the written scenario.'
+      : `Not yet — pass mark is ${AGM_PASS_MARK} of 9. Rewatch the video and retake.`}</div>
+    ${review.length ? `<p class="small">Review these questions with the video before retaking: <b>${review.join(', ')}</b>. Correct answers are not shown — that is deliberate.</p>` : '<p class="small">Perfect score on the auto-graded portion.</p>'}
+  </div>
+  <div class="q">
+    <h2>Written scenario (manager review)</h2>
+    <p class="small">Question 10: issues AGMs resolve vs. escalate, two examples of each.</p>
+    <p style="white-space:pre-wrap">${esc(written)}</p>
+    <p class="small">Manager: initial and date after review — ______________________</p>
+  </div>
+  <div class="no-print">
+    <button class="btn" onclick="window.print()">Print for store record</button>
+    ${passed ? '' : '<a class="btn secondary" href="/nibblenation/art-test-agm">Retake assessment</a>'}
+    <a class="btn secondary" href="/nibblenation">Back to team resources</a>
+  </div>
+</div></body></html>`;
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'private, no-store, max-age=0');
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+  return res.end(html);
+}
+
+module.exports = { ART_FILES, FORM, submit, AGM_FORM, agmSubmit };
