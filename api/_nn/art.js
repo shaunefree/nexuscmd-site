@@ -6,7 +6,7 @@
  * review — never the correct answers.
  */
 
-const ART_FILES = ['Shift_Leader_ART_Roles_and_Responsibilities', 'AGM_ART_Roles_and_Responsibilities'];
+const ART_FILES = ['Shift_Leader_ART_Roles_and_Responsibilities', 'AGM_ART_Roles_and_Responsibilities', 'Store_Manager_ART_Leadership_Workshop'];
 
 const PASS_MARK = 11; // of 13 (~85%)
 
@@ -125,6 +125,53 @@ function readBody(req) {
   });
 }
 
+const MANAGEMENT = ['shaun@nibblenation.com', 't.harvey@nibblenation.com'];
+const MAIL_FROM = 'Nibble Nation Training <nibblenation@nexuscmd.io>';
+
+/* Emails the result to management on every submission. Best-effort with a
+   bounded timeout; the printable result page remains the record either way.
+   Never includes correct answers. */
+async function sendAssessmentEmail({ assessment, name, store, score, total, passed, review, written }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return { sent: false };
+  const lines = [
+    `${assessment} submitted on nexuscmd.io/nibblenation`,
+    '',
+    `Name: ${name || 'Unknown'}`,
+    `Store: ${store || '—'}`,
+    `Score: ${score} / ${total} — ${passed ? 'PASS' : 'DID NOT PASS'}`,
+    review && review.length ? `Questions to review: ${review.join(', ')}` : 'No missed questions.',
+  ];
+  if (written) lines.push('', 'Written scenario answer (manager review required):', written);
+  const text = lines.join('\n');
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000);
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: MAIL_FROM,
+        to: MANAGEMENT,
+        subject: `[ART] ${assessment} | ${store || '—'} | ${name || 'Unknown'} | ${score}/${total} ${passed ? 'PASS' : 'RETRY'}`,
+        text,
+        html: text.split('\n').map(l => l ? `<p>${esc(l)}</p>` : '<br/>').join('')
+      }),
+      signal: controller.signal
+    });
+    clearTimeout(timer);
+    return { sent: response.ok };
+  } catch {
+    return { sent: false };
+  }
+}
+
+function emailStatusLine(sent) {
+  return sent
+    ? '<p class="small">Result emailed to management automatically.</p>'
+    : '<p class="small"><b>Result could not be emailed</b> — print this page and hand it to your manager.</p>';
+}
+
 function grade(body) {
   let score = 0;
   const review = [];
@@ -148,6 +195,7 @@ async function submit(req, res) {
   const body = await readBody(req);
   const { score, review } = grade(body);
   const passed = score >= PASS_MARK;
+  const mail = await sendAssessmentEmail({ assessment: 'Shift Leader A.R.T. Assessment', name: body.name, store: body.store, score, total: QUESTIONS.length, passed, review });
   const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
@@ -165,6 +213,7 @@ async function submit(req, res) {
       ? 'PASS — meets the A.R.T. Shift Leader standard.'
       : `Not yet — pass mark is ${PASS_MARK} of ${QUESTIONS.length}. Rewatch the video and retake.`}</div>
     ${review.length ? `<p class="small">Review these questions with the video before retaking: <b>${review.join(', ')}</b>. Correct answers are not shown — that is deliberate.</p>` : '<p class="small">Perfect understanding of every section.</p>'}
+    ${emailStatusLine(mail.sent)}
   </div>
   <div class="no-print">
     <button class="btn" onclick="window.print()">Print for store record</button>
@@ -252,8 +301,9 @@ async function agmSubmit(req, res) {
     else review.push(q.n);
   }
   const passed = score >= AGM_PASS_MARK;
-  const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const written = String(body.q10 || '').slice(0, 2000);
+  const mail = await sendAssessmentEmail({ assessment: 'AGM A.R.T. Assessment', name: body.name, store: body.store, score, total: 9, passed, review, written });
+  const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -270,6 +320,7 @@ async function agmSubmit(req, res) {
       ? 'PASS (auto-graded portion) — pending manager review of the written scenario.'
       : `Not yet — pass mark is ${AGM_PASS_MARK} of 9. Rewatch the video and retake.`}</div>
     ${review.length ? `<p class="small">Review these questions with the video before retaking: <b>${review.join(', ')}</b>. Correct answers are not shown — that is deliberate.</p>` : '<p class="small">Perfect score on the auto-graded portion.</p>'}
+    ${emailStatusLine(mail.sent)}
   </div>
   <div class="q">
     <h2>Written scenario (manager review)</h2>
@@ -290,4 +341,114 @@ async function agmSubmit(req, res) {
   return res.end(html);
 }
 
-module.exports = { ART_FILES, FORM, submit, AGM_FORM, agmSubmit };
+
+/* ---------------- Store Manager assessment ---------------- */
+
+const SM_PASS_MARK = 9; // of 10 (90%) — the senior-most standard
+
+const SM_QUESTIONS = [
+  { n: 1, t: 'What is defined as the core standard of a successful store manager?', o: { A: 'Working the most hours and filling shift coverage gaps', B: 'Managing daily shift tasks personally', C: 'Building a store that runs successfully without them', D: 'Being well-liked by all crew members to keep morale high' } },
+  { n: 2, t: 'As a store manager shifts value from being a worker to a leader, their primary goal changes from saying “I can do it” to:', o: { A: '“You must do it”', B: '“My team can do it”', C: '“I will coordinate it”', D: '“Who wants to do it?”' } },
+  { n: 3, t: 'In the “crutch store” scenario, a manager works 55 hours a week to fix everything, but the store falls apart when they leave. What is the sustainable solution?', o: { A: 'Reward the manager for their sacrifice and dedication', B: 'Have the manager work more night shifts until the store is in order', C: 'Hire more crew members to lessen the overall workload', D: 'Develop the Assistant General Manager (AGM) and shift leaders to handle operational deficiencies' } },
+  { n: 4, t: 'When updating upper management about an operational problem, a true leader should always communicate:', o: { A: 'Just the details of the problem so others can solve it', B: 'A solution-oriented plan that includes the root cause, impact, action taken, results, and next steps', C: 'An explanation shifting the blame to the staff patterns', D: 'A request for immediate intervention' } },
+  { n: 5, tf: true, t: 'Accountability means you own the final results of the store, even when you delegate tasks to others.' },
+  { n: 6, tf: true, t: 'When evaluating your leadership using the self-assessment tool, you should rate your overall effort rather than the actual evidence your store produces.' },
+  { n: 7, tf: true, t: 'A great worker should automatically be promoted to a leadership position based solely on their individual speed and work ethic.' },
+  { n: 8, blank: true, t: "The three foundational pillars of the workshop's focus are accountability, responsibility, and _____________." },
+  { n: 9, blank: true, t: 'Dependence happens when a manager fixes every problem personally; _____________ happens when you teach others, making yourself optional.' },
+  { n: 10, blank: true, t: 'According to the 90-Day Leadership Challenge, days 1 to 30 focus on clarity, days 31 to 60 focus on _____________, and days 61 to 90 focus on proving results.' }
+];
+
+/* Server-only key. Blanks grade by normalized containment. */
+const SM_KEY = { 1: 'C', 2: 'B', 3: 'D', 4: 'B', 5: 'TRUE', 6: 'FALSE', 7: 'FALSE', 8: 'teamwork', 9: 'development', 10: 'transfer' };
+
+function smQuestionMarkup(q) {
+  if (q.blank) {
+    return `<div class="q"><h2>${q.n}. ${esc(q.t)}</h2>
+      <input name="q${q.n}" required maxlength="60" placeholder="One word" style="width:100%;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px"></div>`;
+  }
+  if (q.tf) {
+    return `<div class="q"><h2>${q.n}. True or False: ${esc(q.t)}</h2>
+      <label class="opt"><input type="radio" name="q${q.n}" value="TRUE" required><span><b>True</b></span></label>
+      <label class="opt"><input type="radio" name="q${q.n}" value="FALSE" required><span><b>False</b></span></label></div>`;
+  }
+  return questionMarkup(q);
+}
+
+const SM_FORM = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>A.R.T. Leadership Workshop — Store Manager Assessment</title>
+<style>${STYLE}</style></head><body>
+<div class="wrap">
+  <p class="eyebrow">Series 03 · A.R.T. Roles &amp; Responsibilities</p>
+  <h1>Store Manager Assessment</h1>
+  <p class="small">10 questions covering the Store Manager A.R.T. Leadership Workshop video.
+  Pass mark: ${SM_PASS_MARK} of 10 — the senior-most standard. Watch the video first, then
+  answer without notes. Your result is emailed to management and the page is printable.</p>
+  <form method="POST" action="/nibblenation/art-test-sm/submit">
+    <div class="q">
+      <div class="field"><label>Your name<br><input name="name" required maxlength="80"></label></div>
+      <div class="field"><label>Store<br><input name="store" required maxlength="40" placeholder="e.g. Store 3"></label></div>
+    </div>
+    ${SM_QUESTIONS.map(smQuestionMarkup).join('')}
+    <button class="btn" type="submit">Submit answers</button>
+    <a class="btn secondary" href="/nibblenation">Back to team resources</a>
+  </form>
+</div></body></html>`;
+
+async function smSubmit(req, res) {
+  if (req.method !== 'POST') {
+    res.statusCode = 405;
+    return res.end('Method not allowed.');
+  }
+  const body = await readBody(req);
+  let score = 0;
+  const review = [];
+  for (const q of SM_QUESTIONS) {
+    const raw = String(body[`q${q.n}`] || '');
+    let correct;
+    if (q.blank) {
+      const norm = raw.toLowerCase().replace(/[^a-z]/g, ' ').trim();
+      correct = norm.split(/\s+/).includes(SM_KEY[q.n]);
+    } else {
+      correct = raw.toUpperCase() === SM_KEY[q.n];
+    }
+    if (correct) score += 1; else review.push(q.n);
+  }
+  const passed = score >= SM_PASS_MARK;
+  const mail = await sendAssessmentEmail({ assessment: 'Store Manager A.R.T. Assessment', name: body.name, store: body.store, score, total: SM_QUESTIONS.length, passed, review });
+  const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const html = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Store Manager A.R.T. Assessment Result</title>
+<style>${STYLE}</style></head><body>
+<div class="wrap">
+  <p class="eyebrow">Series 03 · A.R.T. Roles &amp; Responsibilities</p>
+  <h1>Store Manager Assessment Result</h1>
+  <div class="q">
+    <p><b>${esc(body.name || 'Unknown')}</b> · ${esc(body.store || '—')} · ${esc(date)}</p>
+    <p style="font-size:1.6rem;margin:6px 0"><b>${score} / ${SM_QUESTIONS.length}</b></p>
+    <div class="banner ${passed ? 'pass' : 'retry'}">${passed
+      ? 'PASS — meets the A.R.T. Store Manager standard.'
+      : `Not yet — pass mark is ${SM_PASS_MARK} of ${SM_QUESTIONS.length}. Rewatch the workshop and retake.`}</div>
+    ${review.length ? `<p class="small">Review these questions with the video before retaking: <b>${review.join(', ')}</b>. Correct answers are not shown — that is deliberate.</p>` : '<p class="small">Perfect understanding of every section.</p>'}
+    ${emailStatusLine(mail.sent)}
+  </div>
+  <div class="no-print">
+    <button class="btn" onclick="window.print()">Print for store record</button>
+    ${passed ? '' : '<a class="btn secondary" href="/nibblenation/art-test-sm">Retake assessment</a>'}
+    <a class="btn secondary" href="/nibblenation">Back to team resources</a>
+  </div>
+</div></body></html>`;
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'private, no-store, max-age=0');
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+  return res.end(html);
+}
+
+module.exports = { ART_FILES, FORM, submit, AGM_FORM, agmSubmit, SM_FORM, smSubmit };

@@ -17,6 +17,9 @@ in CLAUDE.md, because a password that lives in the browser is not a password.
   against `api/_nn/files.js`, asks Storage for a signed link, and 302s to it.
   Links expire after 2 hours, so a forwarded URL stops working the same session.
   Only the 33 names in `files.js` will ever be signed.
+  All three assessments email results to shaun@nibblenation.com and
+  t.harvey@nibblenation.com on submit (from nibblenation@nexuscmd.io via
+  Resend, best-effort — the printable result page is the record either way).
   Series 03 A.R.T. role videos live in the same bucket under `ART/` and are
   whitelisted in `api/_nn/art.js` (`ART_FILES`). Project + bucket file-size
   limits were raised to 150MB on 2026-09-02 for the 64MB Shift Leader video.
@@ -47,6 +50,8 @@ false confirmation.
 | `/nibblenation/art-test/submit` | Server-side grading endpoint |
 | `/nibblenation/art-test-agm` | Series 03 AGM assessment (9 auto-graded, pass 8/9, + written scenario for manager review; key server-side only) |
 | `/nibblenation/art-test-agm/submit` | Server-side AGM grading endpoint |
+| `/nibblenation/art-test-sm` | Series 03 Store Manager assessment (4 MC + 3 T/F + 3 fill-in, pass 9/10; key server-side only) |
+| `/nibblenation/art-test-sm/submit` | Server-side SM grading endpoint |
 | `/nibblenation/offboarding` | Protected Employee Separation / Offboarding Form |
 | `/nibblenation/offboarding/submit` | Protected server-side offboarding submission |
 | `/nibblenation/login` | Password form (POST target) |
