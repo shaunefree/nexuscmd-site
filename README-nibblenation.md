@@ -17,6 +17,9 @@ in CLAUDE.md, because a password that lives in the browser is not a password.
   against `api/_nn/files.js`, asks Storage for a signed link, and 302s to it.
   Links expire after 2 hours, so a forwarded URL stops working the same session.
   Only the 33 names in `files.js` will ever be signed.
+  Series 03 A.R.T. role videos live in the same bucket under `ART/` and are
+  whitelisted in `api/_nn/art.js` (`ART_FILES`). Project + bucket file-size
+  limits were raised to 150MB on 2026-09-02 for the 64MB Shift Leader video.
 
 ## Required setup (once)
 
@@ -40,6 +43,8 @@ false confirmation.
 | `/nibblenation/interview` | The interview simulator |
 | `/nibblenation/inventory` | Inventory Conversion Calculator (counts/weights → Altametrics decimals) |
 | `/nibblenation/certification` | NNLC Shift Manager Certification Simulator (full-shift, offline scoring; AGM/Store Manager locked until built) |
+| `/nibblenation/art-test` | Series 03 A.R.T. Shift Leader assessment (13 questions; graded server-side in `api/_nn/art.js` — the answer key never reaches the browser; pass mark 11/13; printable result) |
+| `/nibblenation/art-test/submit` | Server-side grading endpoint |
 | `/nibblenation/offboarding` | Protected Employee Separation / Offboarding Form |
 | `/nibblenation/offboarding/submit` | Protected server-side offboarding submission |
 | `/nibblenation/login` | Password form (POST target) |

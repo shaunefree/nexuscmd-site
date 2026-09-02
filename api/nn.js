@@ -11,6 +11,7 @@ const ASSETS = require('./_nn/assets.js');
 const FILES = require('./_nn/files.js');   // the 33 permitted video names
 const OFFBOARDING = require('./_nn/offboarding.js');
 const INVENTORY = require('./_nn/inventory.js');
+const ART = require('./_nn/art.js');
 const LINKS = require('./_nn/links.js');
 const SIMULATOR = require('./_nn/simulator.js');
 
@@ -144,6 +145,11 @@ module.exports = async function handler(req, res) {
   if (p === 'offboarding/submit') return OFFBOARDING.submit(req, res);
   if (p === 'interview') return send(res, 200, ASSETS.interview);
   if (p === 'inventory') return send(res, 200, INVENTORY.PAGE);
+  if (p === 'art-test') {
+    if (req.method !== 'GET') return send(res, 405, 'Method not allowed.');
+    return send(res, 200, ART.FORM);
+  }
+  if (p === 'art-test/submit') return ART.submit(req, res);
   if (p === 'certification') return send(res, 200, SIMULATOR.PAGE);
 
   /* Video. The page never contains a storage URL. Each play mints a short-lived
@@ -151,11 +157,14 @@ module.exports = async function handler(req, res) {
      known filenames are accepted, so this cannot be pointed at anything else. */
   if (p.slice(0, 2) === 'v/') {
     const name = p.slice(2);
-    if (FILES.indexOf(name) < 0) return send(res, 404, 'Unknown module.');
+    const inSeries01 = FILES.indexOf(name) >= 0;
+    const inArt = ART.ART_FILES.indexOf(name) >= 0;
+    if (!inSeries01 && !inArt) return send(res, 404, 'Unknown module.');
+    const prefix = inSeries01 ? PREFIX : 'ART/';
     const key = process.env.NN_STORAGE_KEY;
     if (!key) return send(res, 503, 'Video storage is not configured yet.');
     try {
-      const r = await fetch(STORAGE + '/object/sign/' + BUCKET + '/' + PREFIX + encodeURIComponent(name) + '.mp4', {
+      const r = await fetch(STORAGE + '/object/sign/' + BUCKET + '/' + prefix + encodeURIComponent(name) + '.mp4', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', apikey: key, Authorization: 'Bearer ' + key },
         body: JSON.stringify({ expiresIn: LINK_TTL })
