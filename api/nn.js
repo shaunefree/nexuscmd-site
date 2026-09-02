@@ -98,8 +98,22 @@ const CLEAR = COOKIE + '=; Path=' + PATH + '; HttpOnly; Secure; SameSite=Lax; Ma
 
 function hubWithOffboarding() {
   const marker = '<div class="sec">';
-  if (ASSETS.hub.indexOf(marker) < 0) return ASSETS.hub;
-  return ASSETS.hub.replace(marker, START_CARD + '\n\n  ' + LINKS.CARD + '\n\n  ' + INVENTORY_CARD + '\n\n  ' + OFFBOARDING_CARD + '\n\n  ' + marker);
+  let hub = ASSETS.hub;
+  // The interview simulator card ships baked into ASSETS.hub above the
+  // injected cards; lift it out so it can sit under Company Systems instead.
+  let interviewCard = '';
+  const ivStart = hub.indexOf('<div class="feature">\n    <div class="eyebrow">Hiring</div>');
+  if (ivStart >= 0) {
+    const ivEnd = hub.indexOf(marker, ivStart);
+    if (ivEnd >= 0) {
+      interviewCard = hub.slice(ivStart, ivEnd).trimEnd();
+      hub = hub.slice(0, ivStart) + hub.slice(ivEnd);
+    }
+  }
+  if (hub.indexOf(marker) < 0) return hub;
+  return hub.replace(marker, START_CARD + '\n\n  ' + LINKS.CARD +
+    (interviewCard ? '\n\n  ' + interviewCard : '') +
+    '\n\n  ' + INVENTORY_CARD + '\n\n  ' + OFFBOARDING_CARD + '\n\n  ' + marker);
 }
 
 module.exports = async function handler(req, res) {
