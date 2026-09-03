@@ -3,7 +3,13 @@
  * The answer KEY lives only in this server module, which is never served as a
  * static file. The form contains questions only; grading happens in submit()
  * and the result page reports score, pass/fail, and question numbers to
- * review — never the correct answers.
+ * review — never the correct answers. The management email is the exception:
+ * it carries the full test with the taker's answers and, on missed questions,
+ * the correct answer, so management can evaluate understanding.
+ *
+ * Attempts are counted per person (typed name + store, normalized) in the
+ * private nn-training bucket under ATTEMPTS/. The first two attempts are
+ * official; attempt 3+ still grades and emails but is labeled PRACTICE.
  */
 
 const ART_FILES = ['Shift_Leader_ART_Roles_and_Responsibilities', 'AGM_ART_Roles_and_Responsibilities', 'Store_Manager_ART_Leadership_Workshop'];
@@ -62,6 +68,11 @@ padding:13px 22px;font:600 1rem Inter,system-ui,sans-serif;cursor:pointer;text-d
 .small{font-size:.85rem;color:var(--muted)}
 @media print{.no-print{display:none}}`;
 
+/* Floating on-screen timer; stamps the hidden started field at load. */
+const TIMER = `<div id="nn-timer" style="position:fixed;bottom:16px;right:16px;background:hsl(24 18% 14%);color:#fff;padding:8px 14px;border-radius:999px;font:600 .95rem Inter,system-ui,sans-serif;z-index:50;opacity:.92" aria-hidden="true">0:00</div>
+<script>(function(){var s=Date.now();var f=document.getElementById('nn-started');if(f)f.value=s;var el=document.getElementById('nn-timer');setInterval(function(){var t=Math.floor((Date.now()-s)/1000);el.textContent=Math.floor(t/60)+':'+('0'+(t%60)).slice(-2);},1000);})()</script>`;
+const STARTED_FIELD = '<input type="hidden" name="started" id="nn-started" value="">';
+
 function questionMarkup(q) {
   if (q.match) {
     const options = Object.entries(q.o).map(([k, v]) => `<div class="small" style="margin:2px 0"><b>${k})</b> ${esc(v)}</div>`).join('');
@@ -97,10 +108,11 @@ const FORM = `<!doctype html>
       <div class="field"><label>Store<br><input name="store" required maxlength="40" placeholder="e.g. Store 3"></label></div>
     </div>
     ${QUESTIONS.map(questionMarkup).join('')}
+    ${STARTED_FIELD}
     <button class="btn" type="submit">Submit answers</button>
     <a class="btn secondary" href="/nibblenation">Back to team resources</a>
   </form>
-</div></body></html>`;
+</div>${TIMER}</body></html>`;
 
 function parseForm(raw) {
   const out = {};
@@ -127,39 +139,179 @@ function readBody(req) {
 
 const MANAGEMENT = ['shaun@nibblenation.com', 't.harvey@nibblenation.com'];
 const MAIL_FROM = 'Nibble Nation Training <nibblenation@nexuscmd.io>';
+const OFFICIAL_ATTEMPTS = 2;
+const STORAGE = 'https://tgxjsdlfvstdmfpkjurg.supabase.co/storage/v1';
+/* Attempt records live in their own private JSON-only bucket so the video
+   bucket keeps its video/mp4-only restriction. */
+const BUCKET = 'nn-records';
+
+function bounded(url, init, ms) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, Object.assign({}, init, { signal: controller.signal }))
+    .finally(() => clearTimeout(timer));
+}
+
+function slug(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'unknown';
+}
+
+/* Appends this submission to the person's attempt history in the private
+   bucket and returns its attempt number (1-based), or null if the store is
+   unreachable — in which case the submission is treated as official and the
+   email says the count was unavailable. */
+async function recordAttempt(assessSlug, name, store, entry) {
+  const key = process.env.NN_STORAGE_KEY;
+  if (!key) return null;
+  const path = `ATTEMPTS/${assessSlug}/${slug(name)}__${slug(store)}.json`;
+  try {
+    let attempts = [];
+    const r = await bounded(`${STORAGE}/object/${BUCKET}/${path}`, { headers: { Authorization: `Bearer ${key}` } }, 4000);
+    if (r.ok) {
+      const data = await r.json().catch(() => null);
+      if (data && Array.isArray(data.attempts)) attempts = data.attempts;
+    }
+    attempts.push(entry);
+    const w = await bounded(`${STORAGE}/object/${BUCKET}/${path}`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'x-upsert': 'true', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ attempts })
+    }, 4000);
+    return w.ok ? attempts.length : null;
+  } catch {
+    return null;
+  }
+}
+
+function fmtDuration(sec) {
+  if (!Number.isFinite(sec) || sec < 0) return null;
+  return `${Math.floor(sec / 60)}m ${String(sec % 60).padStart(2, '0')}s`;
+}
+
+/* Duration comes from a hidden field the timer script stamps at page load. */
+function readDuration(body) {
+  const started = Number(body.started);
+  if (!Number.isFinite(started) || started <= 0) return null;
+  const sec = Math.round((Date.now() - started) / 1000);
+  return sec >= 0 && sec <= 4 * 3600 ? sec : null;
+}
+
+/* Grades any of the three question shapes and keeps per-question detail so
+   the management email can show the whole test. */
+function gradeDetailed(questions, key, body) {
+  let score = 0;
+  const review = [];
+  const detail = [];
+  for (const q of questions) {
+    if (q.written) {
+      detail.push({ q, kind: 'written', answer: String(body[`q${q.n}`] || '').slice(0, 2000) });
+      continue;
+    }
+    if (q.match) {
+      const items = Object.keys(q.items).map(roman => {
+        const given = String(body[`q${q.n}_${roman}`] || '').toUpperCase();
+        return { roman, given, correct: key[q.n][roman], ok: given === key[q.n][roman] };
+      });
+      const ok = items.every(i => i.ok);
+      if (ok) score += 1; else review.push(q.n);
+      detail.push({ q, kind: 'match', items, ok });
+      continue;
+    }
+    const raw = String(body[`q${q.n}`] || '');
+    let ok;
+    if (q.blank) {
+      const norm = raw.toLowerCase().replace(/[^a-z]/g, ' ').trim();
+      ok = norm.split(/\s+/).includes(key[q.n]);
+    } else {
+      ok = raw.toUpperCase() === String(key[q.n]).toUpperCase();
+    }
+    if (ok) score += 1; else review.push(q.n);
+    detail.push({ q, kind: q.blank ? 'blank' : (q.tf ? 'tf' : 'mc'), answer: raw, ok });
+  }
+  return { score, review, detail };
+}
+
+/* Renders the full test for the management email: every question, the answer
+   given, and the correct answer on misses. Management-only content. */
+function detailLines(detail, key) {
+  const out = [];
+  for (const d of detail) {
+    const q = d.q;
+    if (d.kind === 'written') {
+      out.push(`Q${q.n}. ${q.t}`);
+      out.push(`   Their answer (manager review required): ${d.answer || '(blank)'}`);
+      out.push('');
+      continue;
+    }
+    if (d.kind === 'match') {
+      out.push(`Q${q.n}. ${d.ok ? 'CORRECT' : 'MISSED'} — ${q.t}`);
+      Object.entries(q.o).forEach(([k, v]) => out.push(`   ${k}) ${v}`));
+      for (const it of d.items) {
+        const miss = it.ok ? '' : ` [correct: ${it.correct}]`;
+        out.push(`   ${it.roman}. ${q.items[it.roman]} — answered ${it.given || '(blank)'}${miss}`);
+      }
+      out.push('');
+      continue;
+    }
+    out.push(`Q${q.n}. ${d.ok ? 'CORRECT' : 'MISSED'} — ${q.tf ? 'True or False: ' : ''}${q.t}`);
+    let answered;
+    if (d.kind === 'mc') {
+      const letter = d.answer.toUpperCase();
+      answered = q.o[letter] ? `${letter}) ${q.o[letter]}` : (d.answer || '(blank)');
+    } else {
+      answered = d.answer || '(blank)';
+    }
+    out.push(`   Answered: ${answered}`);
+    if (!d.ok) {
+      const k = key[q.n];
+      out.push(`   Correct: ${q.o && q.o[k] ? `${k}) ${q.o[k]}` : String(k)}`);
+    }
+    out.push('');
+  }
+  return out;
+}
+
+function attemptLabel(attempt) {
+  if (!attempt) return 'Attempt count unavailable — treated as official.';
+  return attempt <= OFFICIAL_ATTEMPTS
+    ? `Attempt ${attempt} of ${OFFICIAL_ATTEMPTS} — OFFICIAL.`
+    : `Attempt ${attempt} — PRACTICE (only the first ${OFFICIAL_ATTEMPTS} attempts count).`;
+}
 
 /* Emails the result to management on every submission. Best-effort with a
-   bounded timeout; the printable result page remains the record either way.
-   Never includes correct answers. */
-async function sendAssessmentEmail({ assessment, name, store, score, total, passed, review, written }) {
+   bounded timeout; the printable result page remains the record either way. */
+async function sendAssessmentEmail({ assessment, name, store, score, total, passed, review, written, attempt, durationSec, detail, key: answerKey }) {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { sent: false };
+  const practice = attempt != null && attempt > OFFICIAL_ATTEMPTS;
   const lines = [
     `${assessment} submitted on nexuscmd.io/nibblenation`,
     '',
     `Name: ${name || 'Unknown'}`,
     `Store: ${store || '—'}`,
     `Score: ${score} / ${total} — ${passed ? 'PASS' : 'DID NOT PASS'}`,
-    review && review.length ? `Questions to review: ${review.join(', ')}` : 'No missed questions.',
+    attemptLabel(attempt),
+    `Time taken: ${fmtDuration(durationSec) || 'unknown'}`,
+    review && review.length ? `Questions missed: ${review.join(', ')}` : 'No missed questions.',
   ];
   if (written) lines.push('', 'Written scenario answer (manager review required):', written);
+  if (detail && detail.length) {
+    lines.push('', '——— FULL TEST REVIEW ———', '');
+    lines.push(...detailLines(detail, answerKey));
+  }
   const text = lines.join('\n');
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 5000);
-    const response = await fetch('https://api.resend.com/emails', {
+    const response = await bounded('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: MAIL_FROM,
         to: MANAGEMENT,
-        subject: `[ART] ${assessment} | ${store || '—'} | ${name || 'Unknown'} | ${score}/${total} ${passed ? 'PASS' : 'RETRY'}`,
+        subject: `[ART${practice ? ' PRACTICE' : ''}] ${assessment} | ${store || '—'} | ${name || 'Unknown'} | ${score}/${total} ${passed ? 'PASS' : 'RETRY'}${attempt ? ` | attempt ${attempt}` : ''}`,
         text,
-        html: text.split('\n').map(l => l ? `<p>${esc(l)}</p>` : '<br/>').join('')
-      }),
-      signal: controller.signal
-    });
-    clearTimeout(timer);
+        html: text.split('\n').map(l => l ? `<p style="margin:2px 0">${esc(l)}</p>` : '<br/>').join('')
+      })
+    }, 5000);
     return { sent: response.ok };
   } catch {
     return { sent: false };
@@ -172,20 +324,13 @@ function emailStatusLine(sent) {
     : '<p class="small"><b>Result could not be emailed</b> — print this page and hand it to your manager.</p>';
 }
 
-function grade(body) {
-  let score = 0;
-  const review = [];
-  for (const q of QUESTIONS) {
-    let correct;
-    if (q.match) {
-      correct = Object.keys(q.items).every(roman => String(body[`q${q.n}_${roman}`] || '').toUpperCase() === KEY[q.n][roman]);
-    } else {
-      correct = String(body[`q${q.n}`] || '').toUpperCase() === KEY[q.n];
-    }
-    if (correct) score += 1; else review.push(q.n);
-  }
-  return { score, review };
+function attemptStatusHtml(attempt) {
+  if (!attempt) return '<p class="small">Attempt number unavailable this time — this submission counts as official.</p>';
+  return attempt <= OFFICIAL_ATTEMPTS
+    ? `<p class="small">Official attempt ${attempt} of ${OFFICIAL_ATTEMPTS}.</p>`
+    : `<p class="small"><b>Practice attempt ${attempt}</b> — the first ${OFFICIAL_ATTEMPTS} attempts are the official ones; this run does not count.</p>`;
 }
+
 
 async function submit(req, res) {
   if (req.method !== 'POST') {
@@ -193,9 +338,12 @@ async function submit(req, res) {
     return res.end('Method not allowed.');
   }
   const body = await readBody(req);
-  const { score, review } = grade(body);
+  const { score, review, detail } = gradeDetailed(QUESTIONS, KEY, body);
   const passed = score >= PASS_MARK;
-  const mail = await sendAssessmentEmail({ assessment: 'Shift Leader A.R.T. Assessment', name: body.name, store: body.store, score, total: QUESTIONS.length, passed, review });
+  const durationSec = readDuration(body);
+  const attempt = await recordAttempt('shift-leader', body.name, body.store,
+    { at: new Date().toISOString(), score, total: QUESTIONS.length, passed, durationSec });
+  const mail = await sendAssessmentEmail({ assessment: 'Shift Leader A.R.T. Assessment', name: body.name, store: body.store, score, total: QUESTIONS.length, passed, review, attempt, durationSec, detail, key: KEY });
   const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
@@ -213,6 +361,7 @@ async function submit(req, res) {
       ? 'PASS — meets the A.R.T. Shift Leader standard.'
       : `Not yet — pass mark is ${PASS_MARK} of ${QUESTIONS.length}. Rewatch the video and retake.`}</div>
     ${review.length ? `<p class="small">Review these questions with the video before retaking: <b>${review.join(', ')}</b>. Correct answers are not shown — that is deliberate.</p>` : '<p class="small">Perfect understanding of every section.</p>'}
+    ${attemptStatusHtml(attempt)}
     ${emailStatusLine(mail.sent)}
   </div>
   <div class="no-print">
@@ -282,10 +431,11 @@ const AGM_FORM = `<!doctype html>
       <div class="field"><label>Store<br><input name="store" required maxlength="40" placeholder="e.g. Store 3"></label></div>
     </div>
     ${AGM_QUESTIONS.map(agmQuestionMarkup).join('')}
+    ${STARTED_FIELD}
     <button class="btn" type="submit">Submit answers</button>
     <a class="btn secondary" href="/nibblenation">Back to team resources</a>
   </form>
-</div></body></html>`;
+</div>${TIMER}</body></html>`;
 
 async function agmSubmit(req, res) {
   if (req.method !== 'POST') {
@@ -293,16 +443,13 @@ async function agmSubmit(req, res) {
     return res.end('Method not allowed.');
   }
   const body = await readBody(req);
-  let score = 0;
-  const review = [];
-  for (const q of AGM_QUESTIONS) {
-    if (q.written) continue;
-    if (String(body[`q${q.n}`] || '').toUpperCase() === AGM_KEY[q.n]) score += 1;
-    else review.push(q.n);
-  }
+  const { score, review, detail } = gradeDetailed(AGM_QUESTIONS, AGM_KEY, body);
   const passed = score >= AGM_PASS_MARK;
   const written = String(body.q10 || '').slice(0, 2000);
-  const mail = await sendAssessmentEmail({ assessment: 'AGM A.R.T. Assessment', name: body.name, store: body.store, score, total: 9, passed, review, written });
+  const durationSec = readDuration(body);
+  const attempt = await recordAttempt('agm', body.name, body.store,
+    { at: new Date().toISOString(), score, total: 9, passed, durationSec });
+  const mail = await sendAssessmentEmail({ assessment: 'AGM A.R.T. Assessment', name: body.name, store: body.store, score, total: 9, passed, review, written, attempt, durationSec, detail, key: AGM_KEY });
   const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
@@ -320,6 +467,7 @@ async function agmSubmit(req, res) {
       ? 'PASS (auto-graded portion) — pending manager review of the written scenario.'
       : `Not yet — pass mark is ${AGM_PASS_MARK} of 9. Rewatch the video and retake.`}</div>
     ${review.length ? `<p class="small">Review these questions with the video before retaking: <b>${review.join(', ')}</b>. Correct answers are not shown — that is deliberate.</p>` : '<p class="small">Perfect score on the auto-graded portion.</p>'}
+    ${attemptStatusHtml(attempt)}
     ${emailStatusLine(mail.sent)}
   </div>
   <div class="q">
@@ -393,10 +541,11 @@ const SM_FORM = `<!doctype html>
       <div class="field"><label>Store<br><input name="store" required maxlength="40" placeholder="e.g. Store 3"></label></div>
     </div>
     ${SM_QUESTIONS.map(smQuestionMarkup).join('')}
+    ${STARTED_FIELD}
     <button class="btn" type="submit">Submit answers</button>
     <a class="btn secondary" href="/nibblenation">Back to team resources</a>
   </form>
-</div></body></html>`;
+</div>${TIMER}</body></html>`;
 
 async function smSubmit(req, res) {
   if (req.method !== 'POST') {
@@ -404,21 +553,12 @@ async function smSubmit(req, res) {
     return res.end('Method not allowed.');
   }
   const body = await readBody(req);
-  let score = 0;
-  const review = [];
-  for (const q of SM_QUESTIONS) {
-    const raw = String(body[`q${q.n}`] || '');
-    let correct;
-    if (q.blank) {
-      const norm = raw.toLowerCase().replace(/[^a-z]/g, ' ').trim();
-      correct = norm.split(/\s+/).includes(SM_KEY[q.n]);
-    } else {
-      correct = raw.toUpperCase() === SM_KEY[q.n];
-    }
-    if (correct) score += 1; else review.push(q.n);
-  }
+  const { score, review, detail } = gradeDetailed(SM_QUESTIONS, SM_KEY, body);
   const passed = score >= SM_PASS_MARK;
-  const mail = await sendAssessmentEmail({ assessment: 'Store Manager A.R.T. Assessment', name: body.name, store: body.store, score, total: SM_QUESTIONS.length, passed, review });
+  const durationSec = readDuration(body);
+  const attempt = await recordAttempt('store-manager', body.name, body.store,
+    { at: new Date().toISOString(), score, total: SM_QUESTIONS.length, passed, durationSec });
+  const mail = await sendAssessmentEmail({ assessment: 'Store Manager A.R.T. Assessment', name: body.name, store: body.store, score, total: SM_QUESTIONS.length, passed, review, attempt, durationSec, detail, key: SM_KEY });
   const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
@@ -436,6 +576,7 @@ async function smSubmit(req, res) {
       ? 'PASS — meets the A.R.T. Store Manager standard.'
       : `Not yet — pass mark is ${SM_PASS_MARK} of ${SM_QUESTIONS.length}. Rewatch the workshop and retake.`}</div>
     ${review.length ? `<p class="small">Review these questions with the video before retaking: <b>${review.join(', ')}</b>. Correct answers are not shown — that is deliberate.</p>` : '<p class="small">Perfect understanding of every section.</p>'}
+    ${attemptStatusHtml(attempt)}
     ${emailStatusLine(mail.sent)}
   </div>
   <div class="no-print">
