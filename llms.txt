@@ -17,7 +17,7 @@ Nexus Command™ helps restaurant operations professionals with:
 - Operations performance diagnosis and recovery planning
 - High-stakes career and business decision support
 
-## The Five Intelligence Modules
+## The Five Intelligence Layers
 
 - **Conflict Translator (CT-TE)** — Decodes crew conflict dynamics. Activates when a manager describes disrespect, aggression, public confrontation, hostile behavior, or authority breakdown. Delivers specific response language and a corrective path.
 
@@ -29,7 +29,7 @@ Nexus Command™ helps restaurant operations professionals with:
 
 - **Operations Auditor (OPA)** — Root cause analysis for operational breakdowns. Activates on performance drops, location failures, and metric data. Produces ranked root cause clusters and a time-bound recovery plan.
 
-All five modules are powered by **Helios Core LSCP** (Location Systems and Compliance Protocol) — the underlying intelligence engine that handles equipment risk, maintenance documentation, compliance exposure, and inspection readiness across every session.
+All five intelligence layers are powered by **Helios Core LSCP** (Location Systems and Compliance Protocol) — the underlying intelligence engine that handles equipment risk, maintenance documentation, compliance exposure, and inspection readiness across every session.
 
 ## The FORCE Engine™
 
@@ -65,7 +65,19 @@ Active trademarks: Nexus Command™, Helios Leadership Suite™, FORCE Engine™
 - Pricing: https://nexuscmd.io/pricing
 - FAQ: https://nexuscmd.io/faq
 - Founder: https://nexuscmd.io/founder
+- How it works: https://nexuscmd.io/how-nexus-command-works
+- Examples: https://nexuscmd.io/examples
 - App: https://app.nexuscmd.io
+
+## Field Notes (free guides)
+
+- Resources hub: https://nexuscmd.io/resources
+- How to handle crew conflict as a restaurant manager: https://nexuscmd.io/how-to-handle-crew-conflict
+- Employee accountability in restaurants: https://nexuscmd.io/employee-accountability-restaurants
+- Restaurant manager daily debrief: https://nexuscmd.io/restaurant-manager-daily-debrief
+- Restaurant leadership coaching — what AI changes: https://nexuscmd.io/restaurant-leadership-coaching
+- AI tools for restaurant managers: https://nexuscmd.io/ai-tools-for-restaurant-managers
+- AI for shift leaders: https://nexuscmd.io/ai-for-shift-leaders
 
 ## Contact
 
