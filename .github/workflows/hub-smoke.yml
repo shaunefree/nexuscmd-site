@@ -27,11 +27,14 @@ permissions:
 
 jobs:
   smoke:
-    # For deployment events, only act on a successful *production* deployment.
+    # For deployment events, only act on a successful production deployment of
+    # THIS site. A second Vercel project (nexus-voice-studio) deploys from the same
+    # repo and reports its own "Production – …" environment; matching by prefix ran
+    # the check twice per push.
     if: >-
       github.event_name != 'deployment_status' ||
       (github.event.deployment_status.state == 'success' &&
-       startsWith(github.event.deployment.environment, 'Production'))
+       github.event.deployment.environment == 'Production – nexuscmd-site')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
