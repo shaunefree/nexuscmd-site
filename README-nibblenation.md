@@ -17,7 +17,7 @@ in CLAUDE.md, because a password that lives in the browser is not a password.
   against `api/_nn/files.js`, asks Storage for a signed link, and 302s to it.
   Links expire after 2 hours, so a forwarded URL stops working the same session.
   Only the 33 names in `files.js` will ever be signed.
-  All three assessments email results to shaun@nibblenation.com and
+  All four A.R.T. assessments (Crew Member, Shift Leader, AGM, Store Manager) email results to shaun@nibblenation.com and
   t.harvey@nibblenation.com on submit (from nibblenation@nexuscmd.io via
   Resend, best-effort — the printable result page is the record either way).
   The hub tutorial video lives under `GUIDE/` (whitelist inline in `api/nn.js`;

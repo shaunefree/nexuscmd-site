@@ -30,7 +30,8 @@ const ROUTES = [
   ['/nibblenation/certification', 'Certification'],
   ['/nibblenation/art-test', 'A.R.T.'],
   ['/nibblenation/art-test-agm', 'A.R.T.'],
-  ['/nibblenation/art-test-sm', 'A.R.T.']
+  ['/nibblenation/art-test-sm', 'A.R.T.'],
+  ['/nibblenation/art-test-crew', 'A.R.T.']
 ];
 
 // Every card the hub page must show. Add a line here when a card ships.

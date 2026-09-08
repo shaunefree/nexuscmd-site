@@ -12,7 +12,7 @@
  * official; attempt 3+ still grades and emails but is labeled PRACTICE.
  */
 
-const ART_FILES = ['Shift_Leader_ART_Roles_and_Responsibilities', 'AGM_ART_Roles_and_Responsibilities', 'Store_Manager_ART_Leadership_Workshop'];
+const ART_FILES = ['Shift_Leader_ART_Roles_and_Responsibilities', 'AGM_ART_Roles_and_Responsibilities', 'Store_Manager_ART_Leadership_Workshop', 'Crew_Member_ART_Roles_and_Responsibilities'];
 
 const PASS_MARK = 11; // of 13 (~85%)
 
@@ -592,4 +592,92 @@ async function smSubmit(req, res) {
   return res.end(html);
 }
 
-module.exports = { ART_FILES, FORM, submit, AGM_FORM, agmSubmit, SM_FORM, smSubmit };
+/* ---------- Crew Member ---------- */
+
+const CREW_PASS_MARK = 8; // of 10 (80%) — entry-level standard; change this one number to retune
+
+const CREW_QUESTIONS = [
+  { n: 1, t: 'What is the simple core standard expected of a crew member?', o: { A: 'Work as fast as possible, minimize waste, and follow the manager.', B: 'Arrive ready, execute correctly, and support the shift.', C: 'Keep moving, show good effort, and maintain good intentions.', D: 'Master every station, handle all guest complaints, and manage inventory.' } },
+  { n: 2, t: 'How is dependability measured for a crew member?', o: { A: 'By the amount of busy work completed.', B: 'By the amount of movement and physical effort shown.', C: 'By results, not movement, effort, or good intentions.', D: 'By the length of time employed with the company.' } },
+  { n: 3, match: true, t: 'Match the role to its primary operational focus:', items: { I: 'Crew Member', II: 'Shift Leader', III: 'AGM / Store Manager' }, o: { A: 'Directs the crew and protects shift execution.', B: 'Controls the system, develops future leaders, and owns store results.', C: 'Executes assigned stations with correct work, early communication, and reliable support.' } },
+  { n: 4, t: 'Ownership is defined by which four outcomes that must work together during every shift?', o: { A: 'Speed, Cleanliness, Friendliness, and Accuracy', B: 'Attendance, Task Completion, Cooking, and Cleaning', C: 'Readiness, Execution, Communication, and Handoff.', D: 'Training, Supervision, Analysis, and Feedback' } },
+  { n: 5, t: 'What does the “ART” acronym stand for in the character standard?', o: { A: 'Action, Readiness, Teamwork', B: 'Accountability, Responsibility, Teamwork.', C: 'Accuracy, Reliability, Timing', D: 'Assessment, Resolution, Transition' } },
+  { n: 6, t: 'According to the video, saying “No one told me” is not acceptable accountability when:', o: { A: 'The manager is currently off the clock.', B: 'The team is experiencing a busy rush scenario.', C: 'The standard or problem was already visible.', D: 'You have worked at the store for less than four weeks.' } },
+  { n: 7, t: 'When a problem arises, you should protect performance through facts. What are the four components required for a complete update to a manager?', o: { A: 'Time, Location, Staff involved, and Cost', B: 'Detailed description of what happened, the standard (what should have occurred), the action you took, and the result/next steps.', C: 'Who is to blame, why it happened, how long it will take to fix, and an apology', D: 'Guest reaction, item wasted, equipment model, and shift schedule' } },
+  { n: 8, t: 'Which of the following situations should a crew member escalate immediately to management?', o: { A: 'A routine mistake that can be corrected using the approved process.', B: 'Cleaning, organizing, or restocking needs.', C: 'Food safety risks, equipment failure, cash shortages, or harassment/serious conflict.', D: 'A guest asking to confirm their order accuracy.' } },
+  { n: 9, t: 'The “Grow” program measures readiness for promotion over what time period?', o: { A: 'Two weeks', B: 'Four weeks.', C: 'Ninety days', D: 'Six months' } },
+  { n: 10, t: 'Once promoted, what is the core focus of a new leader under the “LEAD” framework?', o: { A: 'Personally carrying out every single operational task to set an example.', B: 'Creating consistent results through the crew via leadership, execution, analysis, and development.', C: 'Changing store policies and rewriting approved recipes.', D: 'Managing the store entirely from the back office without being visible.' } }
+];
+
+/* Server-only key. Never include in any rendered HTML. */
+const CREW_KEY = { 1: 'B', 2: 'C', 3: { I: 'C', II: 'A', III: 'B' }, 4: 'C', 5: 'B', 6: 'C', 7: 'B', 8: 'C', 9: 'B', 10: 'B' };
+
+const CREW_FORM = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>A.R.T. Roles &amp; Responsibilities — Crew Member Assessment</title>
+<style>${STYLE}</style></head><body>
+<div class="wrap">
+  <p class="eyebrow">Series 03 · A.R.T. Roles &amp; Responsibilities</p>
+  <h1>Crew Member Assessment</h1>
+  <p class="small">10 questions covering the Crew Member A.R.T. video. Pass mark: ${CREW_PASS_MARK} of 10.
+  Watch the video first, then answer without notes. Your result is emailed to management and the page is printable.</p>
+  <form method="POST" action="/nibblenation/art-test-crew/submit">
+    <div class="q">
+      <div class="field"><label>Your name<br><input name="name" required maxlength="80"></label></div>
+      <div class="field"><label>Store<br><input name="store" required maxlength="40" placeholder="e.g. Store 3"></label></div>
+    </div>
+    ${CREW_QUESTIONS.map(questionMarkup).join('')}
+    ${STARTED_FIELD}
+    <button class="btn" type="submit">Submit answers</button>
+    <a class="btn secondary" href="/nibblenation">Back to team resources</a>
+  </form>
+</div>${TIMER}</body></html>`;
+
+async function crewSubmit(req, res) {
+  if (req.method !== 'POST') {
+    res.statusCode = 405;
+    return res.end('Method not allowed.');
+  }
+  const body = await readBody(req);
+  const { score, review, detail } = gradeDetailed(CREW_QUESTIONS, CREW_KEY, body);
+  const passed = score >= CREW_PASS_MARK;
+  const durationSec = readDuration(body);
+  const attempt = await recordAttempt('crew-member', body.name, body.store,
+    { at: new Date().toISOString(), score, total: CREW_QUESTIONS.length, passed, durationSec });
+  const mail = await sendAssessmentEmail({ assessment: 'Crew Member A.R.T. Assessment', name: body.name, store: body.store, score, total: CREW_QUESTIONS.length, passed, review, attempt, durationSec, detail, key: CREW_KEY });
+  const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const html = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Crew Member A.R.T. Assessment Result</title>
+<style>${STYLE}</style></head><body>
+<div class="wrap">
+  <p class="eyebrow">Series 03 · A.R.T. Roles &amp; Responsibilities</p>
+  <h1>Crew Member Assessment Result</h1>
+  <div class="q">
+    <p><b>${esc(body.name || 'Unknown')}</b> · ${esc(body.store || '—')} · ${esc(date)}</p>
+    <p style="font-size:1.6rem;margin:6px 0"><b>${score} / ${CREW_QUESTIONS.length}</b></p>
+    <div class="banner ${passed ? 'pass' : 'retry'}">${passed
+      ? 'PASS — meets the A.R.T. Crew Member standard.'
+      : `Not yet — pass mark is ${CREW_PASS_MARK} of ${CREW_QUESTIONS.length}. Rewatch the video and retake.`}</div>
+    ${review.length ? `<p class="small">Review these questions with the video before retaking: <b>${review.join(', ')}</b>. Correct answers are not shown — that is deliberate.</p>` : '<p class="small">Perfect understanding of every section.</p>'}
+    ${attemptStatusHtml(attempt)}
+    ${emailStatusLine(mail.sent)}
+  </div>
+  <div class="no-print">
+    <button class="btn" onclick="window.print()">Print for store record</button>
+    ${passed ? '' : '<a class="btn secondary" href="/nibblenation/art-test-crew">Retake assessment</a>'}
+    <a class="btn secondary" href="/nibblenation">Back to team resources</a>
+  </div>
+</div></body></html>`;
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'private, no-store, max-age=0');
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+  return res.end(html);
+}
+
+module.exports = { ART_FILES, FORM, submit, AGM_FORM, agmSubmit, SM_FORM, smSubmit, CREW_FORM, crewSubmit };

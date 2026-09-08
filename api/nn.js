@@ -177,6 +177,11 @@ module.exports = async function handler(req, res) {
     return send(res, 200, ART.SM_FORM);
   }
   if (p === 'art-test-sm/submit') return ART.smSubmit(req, res);
+  if (p === 'art-test-crew') {
+    if (req.method !== 'GET') return send(res, 405, 'Method not allowed.');
+    return send(res, 200, ART.CREW_FORM);
+  }
+  if (p === 'art-test-crew/submit') return ART.crewSubmit(req, res);
   if (p === 'certification') return send(res, 200, SIMULATOR.PAGE);
 
   /* Video. The page never contains a storage URL. Each play mints a short-lived
