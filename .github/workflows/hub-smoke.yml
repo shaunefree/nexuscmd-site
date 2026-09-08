@@ -1,0 +1,51 @@
+# Nibble Nation hub smoke check.
+#
+# Runs tests/hub-smoke.mjs against production after every successful production
+# deployment (Vercel reports these to GitHub as deployment_status events), once a
+# day as a safety net, and on demand. It signs in with the staff password from the
+# NIBBLE_PASSWORD repository secret and fails the run if any hub route or card is
+# missing — the exact failure that went unnoticed for three days in September 2026.
+#
+# The secret is set once with:  gh secret set NIBBLE_PASSWORD
+# It is never echoed; the script reads it from the environment only.
+
+name: Hub smoke
+
+on:
+  deployment_status:
+  schedule:
+    - cron: "0 12 * * *" # daily, 12:00 UTC (8am ET)
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Base URL to check (default: production)"
+        required: false
+        default: "https://nexuscmd.io"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    # For deployment events, only act on a successful *production* deployment.
+    if: >-
+      github.event_name != 'deployment_status' ||
+      (github.event.deployment_status.state == 'success' &&
+       startsWith(github.event.deployment.environment, 'Production'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Smoke the hub
+        env:
+          NIBBLE_PASSWORD: ${{ secrets.NIBBLE_PASSWORD }}
+          SMOKE_BASE_URL: ${{ github.event.inputs.base_url || 'https://nexuscmd.io' }}
+        run: |
+          if [ -z "$NIBBLE_PASSWORD" ]; then
+            echo "::error::NIBBLE_PASSWORD repository secret is not set — run: gh secret set NIBBLE_PASSWORD"
+            exit 1
+          fi
+          node tests/hub-smoke.mjs
