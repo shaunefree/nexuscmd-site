@@ -66,6 +66,21 @@ false confirmation.
 
 The HTML in `api/_nn/assets.js` is generated. Regenerate it rather than hand-editing.
 
+**When exporting a page from an Artifact, export the authored document only.** The
+Artifact platform wraps published content in its own
+`<!doctype html><html><head>…` skeleton (you can recognise it by its
+`[hidden]{display:none!important}` reset), so an export that captures the whole
+served page stacks that skeleton on top of the authored document — two doctypes,
+two `<html>`, two `<head>`, and no `</head>` or `<body>` at all. Browsers recover
+silently and the hub smoke check still passes, so this ships unnoticed: it did, in
+both Avoidable Moments pages, until 2026-09-11.
+
+`tests/html-structure.test.mjs` asserts that every page served from `api/_nn` is a
+single well-formed document, and runs on every push via the Tests workflow. A
+document embedded in a JS string — the printable reports the interview and
+certification simulators build at runtime — is exempt and does not count against
+the page containing it.
+
 ## Employee offboarding
 
 The offboarding form is served from the protected `api/_nn/offboarding.js` module;

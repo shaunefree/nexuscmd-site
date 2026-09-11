@@ -1,0 +1,33 @@
+# Repository tests. Unlike the hub smoke check — which runs against production
+# after a deploy — these run on the code itself, before anything ships.
+#
+# Added 2026-09-11 alongside tests/html-structure.test.mjs, after the Avoidable
+# Moments course shipped with two stacked document preambles. The pages in
+# api/_nn are generated outside this repo, so a structural check here is what
+# catches a bad export before it reaches production.
+
+name: Tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      # The glob deliberately matches *.test.mjs only: tests/hub-smoke.mjs is a
+      # production check that needs the staff password, and runs from its own
+      # workflow after a deploy.
+      - name: Run tests
+        run: node --test "tests/*.test.mjs"
