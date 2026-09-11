@@ -14,6 +14,7 @@ const INVENTORY = require('./_nn/inventory.js');
 const ART = require('./_nn/art.js');
 const LINKS = require('./_nn/links.js');
 const SIMULATOR = require('./_nn/simulator.js');
+const COURSE = require('./_nn/course.js');     // Avoidable Moments course + role-play playbook
 
 const STORAGE = 'https://tgxjsdlfvstdmfpkjurg.supabase.co/storage/v1';
 const BUCKET = 'nn-training';
@@ -32,6 +33,19 @@ const START_CARD = '<div class="feature start-here-card"><h2>Start Here — New 
 const INVENTORY_CARD = '<div class="feature inventory-card"><h2>Inventory Calculator</h2>' +
   '<p>Convert what you count or weigh into the exact decimals to enter in Altametrics. Works on any phone.</p>' +
   '<a class="btn" href="/nibblenation/inventory">Open inventory calculator</a></div>';
+
+/* AGM customer-service course + manager playbook, placed directly under the AGM
+   row in Series 03 (A.R.T. Roles & Responsibilities). */
+const AGM_COURSE_CARD = '<div class="feature avoidable-card">\n      <h2>AGM &mdash; Avoidable Moments: Customer Service Course</h2>\n' +
+  '      <p>Six sections on serious customer-service failures that never had to happen: the unpaid-item assumption, ' +
+  'wrong orders, the upset customer, late orders, quality complaints, and charge or change disputes. Each section runs ' +
+  'Welcome, Reason, Issue, Policy, and Procedure, with mini games, practice role-plays, a knowledge check, and a manager sign-off. ' +
+  'Managers run the two live role-plays per section from the playbook.</p>\n' +
+  '      <div style="display:flex;gap:10px;flex-wrap:wrap">\n' +
+  '        <a class="btn btn-primary" href="/nibblenation/avoidable-moments">Open the course</a>\n' +
+  '        <a class="btn" href="/nibblenation/role-play-playbook">Manager role-play playbook</a>\n' +
+  '      </div>\n    </div>\n    ';
+const AGM_COURSE_MARKER = '<div class="feature">\n      <h2>Store Manager &mdash; A.R.T. Leadership Workshop</h2>';
 
 function sha(s) { return crypto.createHash('sha256').update(String(s), 'utf8').digest(); }
 function equal(a, b) { return crypto.timingSafeEqual(sha(a), sha(b)); }
@@ -110,6 +124,7 @@ function hubWithOffboarding() {
       hub = hub.slice(0, ivStart) + hub.slice(ivEnd);
     }
   }
+  if (hub.indexOf(AGM_COURSE_MARKER) >= 0) hub = hub.replace(AGM_COURSE_MARKER, AGM_COURSE_CARD + AGM_COURSE_MARKER);
   if (hub.indexOf(marker) < 0) return hub;
   return hub.replace(marker, START_CARD + '\n\n  ' + LINKS.CARD +
     (interviewCard ? '\n\n  ' + interviewCard : '') +
@@ -183,6 +198,8 @@ module.exports = async function handler(req, res) {
   }
   if (p === 'art-test-crew/submit') return ART.crewSubmit(req, res);
   if (p === 'certification') return send(res, 200, SIMULATOR.PAGE);
+  if (p === 'avoidable-moments') return send(res, 200, COURSE.COURSE);
+  if (p === 'role-play-playbook') return send(res, 200, COURSE.PLAYBOOK);
 
   /* Video. The page never contains a storage URL. Each play mints a short-lived
      signed link, so a forwarded link stops working within the hour. Only the 33

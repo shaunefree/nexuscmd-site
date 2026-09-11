@@ -31,7 +31,9 @@ const ROUTES = [
   ['/nibblenation/art-test', 'A.R.T.'],
   ['/nibblenation/art-test-agm', 'A.R.T.'],
   ['/nibblenation/art-test-sm', 'A.R.T.'],
-  ['/nibblenation/art-test-crew', 'A.R.T.']
+  ['/nibblenation/art-test-crew', 'A.R.T.'],
+  ['/nibblenation/avoidable-moments', 'Avoidable Moments'],
+  ['/nibblenation/role-play-playbook', 'Avoidable Moments Playbook']
 ];
 
 // Every card the hub page must show. Add a line here when a card ships.
@@ -42,7 +44,8 @@ const HUB_CARDS = [
   'Inventory Calculator',
   'Employee Offboarding',
   'Training Library',
-  'A.R.T.'
+  'A.R.T.',
+  'Avoidable Moments'
 ];
 
 const failures = [];

@@ -55,6 +55,8 @@ false confirmation.
 | `/nibblenation/art-test-agm/submit` | Server-side AGM grading endpoint |
 | `/nibblenation/art-test-sm` | Series 03 Store Manager assessment (4 MC + 3 T/F + 3 fill-in, pass 9/10; key server-side only) |
 | `/nibblenation/art-test-sm/submit` | Server-side SM grading endpoint |
+| `/nibblenation/avoidable-moments` | Avoidable Moments — AGM customer-service course (6 sections; linked from the AGM row in Series 03) |
+| `/nibblenation/role-play-playbook` | Manager playbook for the course's 12 live role-plays (printable; `#s1`–`#s6` opens one section) |
 | `/nibblenation/offboarding` | Protected Employee Separation / Offboarding Form |
 | `/nibblenation/offboarding/submit` | Protected server-side offboarding submission |
 | `/nibblenation/login` | Password form (POST target) |
